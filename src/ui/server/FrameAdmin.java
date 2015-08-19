@@ -1,4 +1,4 @@
-package TEST;
+package ui.server;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -20,7 +20,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.CompoundBorder;
 
-public class AdminPage extends JFrame
+public class FrameAdmin extends JFrame
 {
 
 	private JPanel contentPane;
@@ -30,7 +30,7 @@ public class AdminPage extends JFrame
 	private JTextField guestCountField;
 	private int visitGuestCount;
 
-	private UserManagePane[] userManagePanes = new UserManagePane[8];
+	private PanelUserInform[] userManagePanes = new PanelUserInform[8];
 	
 
 	/**
@@ -44,7 +44,7 @@ public class AdminPage extends JFrame
 			{
 				try
 				{
-					AdminPage frame = new AdminPage();
+					FrameAdmin frame = new FrameAdmin();
 					frame.setVisible(true);
 				}
 				catch (Exception e)
@@ -58,7 +58,7 @@ public class AdminPage extends JFrame
 	/**
 	 * Create the frame.
 	 */
-	public AdminPage()
+	public FrameAdmin()
 	{
 		setTitle("PC방 관리창");
 		setResizable(false);
@@ -131,7 +131,7 @@ public class AdminPage extends JFrame
 
 		for (int i = 0; i < userManagePanes.length; i++)
 		{
-			userManagePanes[i] = new UserManagePane();
+			userManagePanes[i] = new PanelUserInform();
 			centerPane.add(userManagePanes[i]);
 		}
 

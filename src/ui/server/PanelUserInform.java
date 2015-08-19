@@ -1,4 +1,4 @@
-package TEST;
+package ui.server;
 
 import java.sql.Time;
 
@@ -15,7 +15,7 @@ import java.awt.Font;
 import java.awt.BorderLayout;
 import javax.swing.border.CompoundBorder;
 
-public class UserManagePane extends JPanel
+public class PanelUserInform extends JPanel
 {
 	private int pcNum;
 	private String userID;
@@ -27,7 +27,7 @@ public class UserManagePane extends JPanel
 	 * 
 	 * Create the panel.
 	 */
-	public UserManagePane()
+	public PanelUserInform()
 	{
 		setBorder(new EmptyBorder(5, 5, 5, 5));
 		setLayout(new BorderLayout(0, 0));

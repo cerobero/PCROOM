@@ -1,4 +1,4 @@
-package TEST;
+package ui.server;
 
 import javax.swing.JPanel;
 import javax.swing.border.CompoundBorder;
@@ -12,7 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
 
-public class MessagePopupFromUser extends JPanel
+public class PanelMessagePopup extends JPanel
 {
 	private int pcNum;
 	private String userMessage;
@@ -20,7 +20,7 @@ public class MessagePopupFromUser extends JPanel
 	/**
 	 * Create the panel.
 	 */
-	public MessagePopupFromUser()
+	public PanelMessagePopup()
 	{
 		setBorder(new CompoundBorder(new LineBorder(new Color(0, 0, 0), 2, true), new EmptyBorder(5, 5, 5, 5)));
 		setLayout(new BorderLayout(0, 0));
