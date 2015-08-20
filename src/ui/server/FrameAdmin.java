@@ -6,6 +6,11 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.Calendar;
 
 import javax.swing.BoxLayout;
@@ -16,9 +21,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
+import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
-import javax.swing.border.CompoundBorder;
 
 public class FrameAdmin extends JFrame
 {
@@ -155,7 +160,6 @@ public class FrameAdmin extends JFrame
 		buttonPane.setLayout(new GridLayout(0, 1, 0, 0));
 
 		JButton button = new JButton("음식 관리");
-		button.setBorder(new EmptyBorder(0, 0, 5, 0));
 		button.setPreferredSize(new Dimension(100, 0));
 		button.setFont(new Font("맑은 고딕", Font.BOLD, 14));
 		buttonPane.add(button);
@@ -171,7 +175,6 @@ public class FrameAdmin extends JFrame
 		buttonPane.add(button_2);
 
 		JButton button_3 = new JButton("메뉴 3");
-		button_3.setBorder(new EmptyBorder(0, 0, 5, 0));
 		button_3.setPreferredSize(new Dimension(100, 0));
 		button_3.setFont(new Font("맑은 고딕", Font.BOLD, 14));
 		buttonPane.add(button_3);
@@ -179,14 +182,16 @@ public class FrameAdmin extends JFrame
 		threadStart();
 	}
 	
-	public void threadStart()
+	private void threadStart()
 	{
-		Timer timer = new Timer();
+		SetInform setInform = new SetInform();
+		ReadUserMessage readMessage = new ReadUserMessage(this);
 		
-		timer.start();
+		setInform.start();
+		readMessage.start();
 	}
 
-	public class Timer extends Thread
+	public class SetInform extends Thread
 	{
 		private Calendar cal;
 		
@@ -255,6 +260,60 @@ public class FrameAdmin extends JFrame
 		public int getSec()
 		{
 			return sec;
+		}
+	}
+	
+	public class ReadUserMessage extends Thread
+	{
+		private ServerSocket server;
+		private Socket socket;
+		private BufferedReader reader;
+		private PanelMessagePopup userMessagePane;
+		private JFrame frame;
+		
+		public ReadUserMessage(JFrame frame)
+		{
+			this.frame = frame;
+		}
+		
+		@Override
+		public void run()
+		{
+			try
+			{
+				server = new ServerSocket(9999);
+				userMessagePane = new PanelMessagePopup();
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+			
+			for (;;)
+			{
+				try
+				{
+					socket = server.accept();
+					reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+					userMessagePane.setSize(new Dimension(300, 200));
+					userMessagePane.setLocationRelativeTo(frame);
+					userMessagePane.setVisible(true);
+					userMessagePane.setPcNum(Integer.parseInt(reader.readLine()));
+					userMessagePane.setUserMessage(reader.readLine());
+
+					Thread.sleep(5000);
+				}
+				catch (IOException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				catch (InterruptedException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 
