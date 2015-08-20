@@ -22,12 +22,12 @@ public class PanelMessagePopup extends JDialog
 	private JTextArea messageArea;
 
 	/**
-	 * Create the panel.
+	 * Create the panel
 	 */
 	public PanelMessagePopup()
 	{
 		//		setBorder(new CompoundBorder(new LineBorder(new Color(0, 0, 0), 2, true), new EmptyBorder(5, 5, 5, 5)));
-		setTitle("ë©”ì‹œì§€");
+		setTitle("¸Ş½ÃÁö");
 		getContentPane().setLayout(new BorderLayout(0, 0));
 
 		JPanel pcInformPane = new JPanel();
@@ -46,7 +46,7 @@ public class PanelMessagePopup extends JDialog
 		JPanel confirmPane = new JPanel();
 		getContentPane().add(confirmPane, BorderLayout.SOUTH);
 
-		JButton confirmButton = new JButton("í™•ì¸");
+		JButton confirmButton = new JButton("È®ÀÎ");
 		confirmButton.addActionListener(new ActionListener()
 		{
 			@Override
@@ -95,7 +95,7 @@ public class PanelMessagePopup extends JDialog
 		{
 			for (;;)
 			{
-				pcInformLabel.setText(pcNum + "ë²ˆ PC ë©”ì‹œì§€");
+				pcInformLabel.setText(pcNum + "¹ø PC ¸Ş½ÃÁö");
 				messageArea.setText(userMessage);
 
 				try

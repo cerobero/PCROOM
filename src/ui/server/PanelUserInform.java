@@ -1,19 +1,18 @@
 package ui.server;
 
-import java.sql.Time;
-
-import javax.swing.BoxLayout;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JButton;
-import javax.swing.SwingConstants;
-import java.awt.GridLayout;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.BorderLayout;
+import java.awt.GridLayout;
+import java.sql.Time;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 public class PanelUserInform extends JPanel
 {
@@ -37,28 +36,28 @@ public class PanelUserInform extends JPanel
 		contentPane.setLayout(new GridLayout(0, 1));
 		
 		JLabel pcNumLabel = new JLabel("PC No. " + pcNum);
-		pcNumLabel.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.PLAIN, 12));
+		pcNumLabel.setFont(new Font("¸¼Àº °íµñ", Font.PLAIN, 12));
 		pcNumLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		contentPane.add(pcNumLabel);
 		
 		JLabel userIDLabel = new JLabel("ID : " + userID);
-		userIDLabel.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.PLAIN, 12));
+		userIDLabel.setFont(new Font("¸¼Àº °íµñ", Font.PLAIN, 12));
 		contentPane.add(userIDLabel);
 		
-		JLabel userRateLabel = new JLabel("ë“±ê¸‰ : " + userRate);
-		userRateLabel.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.PLAIN, 12));
+		JLabel userRateLabel = new JLabel("µî±Ş : " + userRate);
+		userRateLabel.setFont(new Font("¸¼Àº °íµñ", Font.PLAIN, 12));
 		contentPane.add(userRateLabel);
 		
-		JLabel userTimeLabel = new JLabel("ì‚¬ìš©ì‹œê°„ : " + useTime);
-		userTimeLabel.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.PLAIN, 12));
+		JLabel userTimeLabel = new JLabel("»ç¿ë½Ã°£ : " + useTime);
+		userTimeLabel.setFont(new Font("¸¼Àº °íµñ", Font.PLAIN, 12));
 		contentPane.add(userTimeLabel);
 		
-		JLabel playedGameLabel = new JLabel("ì‹¤í–‰ì¤‘ì¸ ê²Œì„ : " + playedGame);
-		playedGameLabel.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.PLAIN, 12));
+		JLabel playedGameLabel = new JLabel("½ÇÇàÁßÀÎ °ÔÀÓ : " + playedGame);
+		playedGameLabel.setFont(new Font("¸¼Àº °íµñ", Font.PLAIN, 12));
 		contentPane.add(playedGameLabel);
 		
-		JButton button = new JButton("ì‚¬ìš©ì¢…ë£Œ");
-		button.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.PLAIN, 12));
+		JButton button = new JButton("»ç¿ëÁ¾·á");
+		button.setFont(new Font("¸¼Àº °íµñ", Font.PLAIN, 12));
 		contentPane.add(button);
 		
 		add(contentPane);

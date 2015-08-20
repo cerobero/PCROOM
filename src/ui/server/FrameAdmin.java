@@ -65,7 +65,7 @@ public class FrameAdmin extends JFrame
 	 */
 	public FrameAdmin()
 	{
-		setTitle("PCë°© ê´€ë¦¬ì°½");
+		setTitle("PC¹æ °ü¸®Ã¢");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 480);
@@ -95,16 +95,16 @@ public class FrameAdmin extends JFrame
 		JTextPane textPane = new JTextPane();
 		textPane.setEditable(false);
 		titleCenterPane.add(textPane);
-		textPane.setText("PCë°© ê´€ë¦¬ì°½");
+		textPane.setText("PC¹æ °ü¸®Ã¢");
 		textPane.setOpaque(false);
-		textPane.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 25));
+		textPane.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 25));
 
 		JPanel titleRightPane = new JPanel();
 		titlePane.add(titleRightPane, BorderLayout.EAST);
 		titleRightPane.setLayout(new BoxLayout(titleRightPane, BoxLayout.Y_AXIS));
 
 		dateField = new JTextField();
-		dateField.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 12));
+		dateField.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 12));
 		dateField.setHorizontalAlignment(SwingConstants.RIGHT);
 		dateField.setEditable(false);
 		dateField.setBorder(null);
@@ -113,7 +113,7 @@ public class FrameAdmin extends JFrame
 		titleRightPane.add(dateField);
 
 		timeField = new JTextField();
-		timeField.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 12));
+		timeField.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 12));
 		timeField.setHorizontalAlignment(SwingConstants.RIGHT);
 		timeField.setEditable(false);
 		timeField.setBorder(null);
@@ -122,10 +122,10 @@ public class FrameAdmin extends JFrame
 		titleRightPane.add(timeField);
 
 		guestCountField = new JTextField();
-		guestCountField.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 12));
+		guestCountField.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 12));
 		guestCountField.setHorizontalAlignment(SwingConstants.RIGHT);
 		visitGuestCount = 5;
-		guestCountField.setText("ì˜¤ëŠ˜ ì†ë‹˜ìˆ˜ : " + visitGuestCount + "ëª…");
+		guestCountField.setText("¿À´Ã ¼Õ´Ô¼ö : " + visitGuestCount + "¸í");
 		guestCountField.setEditable(false);
 		guestCountField.setBorder(null);
 		guestCountField.setOpaque(false);
@@ -152,31 +152,31 @@ public class FrameAdmin extends JFrame
 		informPane.setBorder(new CompoundBorder(new EmptyBorder(0, 0, 5, 0), new LineBorder(new Color(0, 0, 0), 2, true)));
 		menuPane.add(informPane);
 
-		JLabel label = new JLabel("ê¸°íƒ€ ì •ë³´ë€");
+		JLabel label = new JLabel("±âÅ¸ Á¤º¸¶õ");
 		informPane.add(label);
 
 		JPanel buttonPane = new JPanel();
 		menuPane.add(buttonPane);
 		buttonPane.setLayout(new GridLayout(0, 1, 0, 0));
 
-		JButton button = new JButton("ìŒì‹ ê´€ë¦¬");
+		JButton button = new JButton("À½½Ä °ü¸®");
 		button.setPreferredSize(new Dimension(100, 0));
-		button.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 14));
+		button.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 14));
 		buttonPane.add(button);
 
-		JButton button_1 = new JButton("ë©”ë‰´ 1");
+		JButton button_1 = new JButton("¸Ş´º 1");
 		button_1.setPreferredSize(new Dimension(100, 0));
-		button_1.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 14));
+		button_1.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 14));
 		buttonPane.add(button_1);
 
-		JButton button_2 = new JButton("ë©”ë‰´ 2");
+		JButton button_2 = new JButton("¸Ş´º 2");
 		button_2.setPreferredSize(new Dimension(100, 0));
-		button_2.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 14));
+		button_2.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 14));
 		buttonPane.add(button_2);
 
-		JButton button_3 = new JButton("ë©”ë‰´ 3");
+		JButton button_3 = new JButton("¸Ş´º 3");
 		button_3.setPreferredSize(new Dimension(100, 0));
-		button_3.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 14));
+		button_3.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 14));
 		buttonPane.add(button_3);
 		
 		threadStart();
