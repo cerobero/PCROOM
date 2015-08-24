@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.Calendar;
 
 import javax.swing.BoxLayout;
@@ -179,6 +180,8 @@ public class FrameAdmin extends JFrame
 		button_3.setFont(new Font("∏º¿∫ ∞ÌµÒ", Font.BOLD, 14));
 		buttonPane.add(button_3);
 		
+		/* GEONWOO-CHO 0821 FrameAdmin */
+		setVisible(true);
 		threadStart();
 	}
 	
@@ -294,18 +297,25 @@ public class FrameAdmin extends JFrame
 				try
 				{
 					socket = server.accept();
+					System.out.println("accepted");
 					reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+					userMessagePane.setPcNum(Integer.parseInt(reader.readLine()));
+					System.out.println("read number");
+					userMessagePane.setUserMessage(reader.readLine());
+					System.out.println("read message");
+
 					userMessagePane.setSize(new Dimension(300, 200));
 					userMessagePane.setLocationRelativeTo(frame);
 					userMessagePane.setVisible(true);
-					userMessagePane.setPcNum(Integer.parseInt(reader.readLine()));
-					userMessagePane.setUserMessage(reader.readLine());
 
 					Thread.sleep(5000);
 				}
+				catch (SocketException e)
+				{
+					System.out.println("ø¨∞·¡æ∑·");
+				}
 				catch (IOException e)
 				{
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				catch (InterruptedException e)

@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+import asset.GeneralSet;
+
 public class LoginAdmin extends JFrame {
 	private JTextField textfield_id;
 	private JTextField textfield_pw;
@@ -31,7 +33,10 @@ public class LoginAdmin extends JFrame {
 		label_pw.setBounds(50, 170, 50, 20);
 		add(label_pw);
 		
+		/* GEONWOO-CHO 0821 Set to JPasswordField
 		textfield_pw = new JTextField();
+		*/
+		textfield_pw = new JPasswordField();
 		textfield_pw.setBounds(100, 170, 100, 20);
 		add(textfield_pw);
 		
@@ -40,6 +45,9 @@ public class LoginAdmin extends JFrame {
 		add(button_login);
 		//이벤트
 		button_login.addActionListener(new MyListener());
+		/* GEONWOO-CHO 0821 Enter Login */
+		textfield_id.addActionListener(new MyListener());
+		textfield_pw.addActionListener(new MyListener());
 		
 		setSize(300, 350);
 		setTitle("관리자 로그인");
@@ -53,11 +61,15 @@ public class LoginAdmin extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			//관리자 아이디:abcd
 			//관리자 비밀번호:1234
-			if(textfield_id.getText().equals("abcd")){
-				if(textfield_pw.getText().equals("1234")){
+			if(textfield_id.getText().equals(GeneralSet.ADMIN_ID)){
+				if(textfield_pw.getText().equals(GeneralSet.ADMIN_PW)){
 					System.out.println("로그인 성공!");
 					textfield_id.setText("");
 					textfield_pw.setText("");
+					
+					/* GEONWOO-CHO 0821 FrameAdmin */
+					new FrameAdmin();
+					dispose();
 				}else{
 					System.out.println("비밀번호 오류");
 					textfield_pw.setText("");
