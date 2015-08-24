@@ -54,10 +54,10 @@ public class ClientHandler extends Thread
 		messagePane.setLocationRelativeTo(frame);
 		messagePane.setVisible(true);
 	}
-	
+
 	public void orderFood(String msg)
 	{
-		
+
 	}
 
 	@Override
@@ -85,26 +85,23 @@ public class ClientHandler extends Thread
 			}
 			catch (SocketException e)
 			{
-				GeneralSet.print("Client 연결이 종료됨");
-				server.clientExit(this);
-				return;
+				try
+				{
+					GeneralSet.print("Client 연결이 종료됨");
+					reader.close();
+					writer.close();
+					socket.close();
+					server.clientExit(this);
+					return;
+				}
+				catch (IOException e2)
+				{
+					e.printStackTrace();
+				}
 			}
 			catch (IOException e)
 			{
 				e.printStackTrace();
-			}
-			finally
-			{
-				try
-				{
-					reader.close();
-					writer.close();
-					socket.close();
-				}
-				catch (IOException e)
-				{
-					e.printStackTrace();
-				}
 			}
 		}
 	}
