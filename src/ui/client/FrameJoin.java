@@ -82,7 +82,7 @@ public class FrameJoin extends JFrame {
 		
 		setSize(300, 350);
 		setTitle("회원가입");
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+	//	setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
 
 	}
@@ -112,15 +112,16 @@ public class FrameJoin extends JFrame {
 				textfield_phone.setText("");
 				textfield_birth.setText("");
 			}
+			dao.exit();
 		}
 		
 	}
 	
 ///////////////////////////////////////////////////////	
-	
-	
-	public static void main(String[] args) {
-		new FrameJoin();
-	}
-
+//	
+//	
+//	public static void main(String[] args) {
+//		new FrameJoin();
+//	}
+//
 }

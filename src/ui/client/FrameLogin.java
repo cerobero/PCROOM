@@ -75,8 +75,11 @@ public class FrameLogin extends JFrame {
 		panel_login.add(button_login);
 		button_login.setBounds(130, 250, 100, 30);
 		//이벤트
-		button_login.addActionListener(new MyListener());
+		MyListener my = new MyListener();
+		button_join.addActionListener(my);
+		button_login.addActionListener(my);
 		
+	
 		setSize(750, 400);
 		setTitle("PC방 프로그램");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -88,20 +91,33 @@ public class FrameLogin extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			if(e.getSource() == button_join){
+				//FrameJoin을 불러오게
+
+				FrameJoin frameJoin =new FrameJoin();
+				
+				
+			}else if(e.getSource() == button_login){
 			
 			findId=dao.select(textfield_id.getText());
 			
 			if(findId !=null){
 				if(findId.getPassword().equals(textfield_pw.getText())){
 					System.out.println("로그인 성공!");
+					textfield_id.setText("");
+					textfield_pw.setText("");
 				}else{
 					System.out.println("비밀번호 오류");
+					textfield_pw.setText("");
 				}
 			}else{
 				System.out.println("아이디 오류");
+				textfield_id.setText("");
+				textfield_pw.setText("");
 			}
 			
-			
+			dao.exit();
+			}
 		}
 		
 	
