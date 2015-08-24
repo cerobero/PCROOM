@@ -131,16 +131,7 @@ public class stop {
 		JFrame frame_2 = new JFrame();
 		frame_2.getContentPane().setLayout(null);
 		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(76, 59, 10, 10);
-		frame_2.getContentPane().add(panel_1);
-		
-		JLabel label_6 = new JLabel("    \uBC88\uD638");
-		label_6.setFont(new Font("±¼¸²", Font.PLAIN, 17));
-		label_6.setBounds(25, 34, 74, 35);
-		frame_2.getContentPane().add(label_6);
-		
-		JLabel label_7 = new JLabel("\uC0AC\uC6A9\uC790 \uC120\uD6C4\uBD88");
+		JLabel label_7 = new JLabel("   \uC77C\uC2DC\uC911\uC9C0\uC911");
 		label_7.setFont(new Font("±¼¸²", Font.PLAIN, 17));
 		label_7.setBounds(111, 34, 168, 35);
 		frame_2.getContentPane().add(label_7);
