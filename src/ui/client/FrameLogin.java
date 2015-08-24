@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 
+import asset.GeneralSet;
 import dao.Join;
 import dao.JoinDao;
 
@@ -92,7 +93,7 @@ public class FrameLogin extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if(e.getSource() == button_join){
-				//FrameJoin을 불러오게
+		
 
 				FrameJoin frameJoin =new FrameJoin();
 				
@@ -103,15 +104,22 @@ public class FrameLogin extends JFrame {
 			
 			if(findId !=null){
 				if(findId.getPassword().equals(textfield_pw.getText())){
-					System.out.println("로그인 성공!");
+					GeneralSet.print("로그인 성공!");
 					textfield_id.setText("");
 					textfield_pw.setText("");
+					//번호 사용자 선후불 불러오게!
+					userPay userpay = new userPay();
+					dispose();
+					
+					
+					
+					
 				}else{
-					System.out.println("비밀번호 오류");
+					GeneralSet.print("비밀번호 오류");
 					textfield_pw.setText("");
 				}
 			}else{
-				System.out.println("아이디 오류");
+				GeneralSet.print("아이디 오류");
 				textfield_id.setText("");
 				textfield_pw.setText("");
 			}

@@ -6,6 +6,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JTextField;
 
@@ -24,13 +27,13 @@ public class stop {
 
 	/**
 	 * Launch the application.
-	 */
+//	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					stop window = new stop();
-					window.frame.setVisible(true);
+					//window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -51,6 +54,8 @@ public class stop {
 	private void initialize() {
 		frame = new JFrame();
 		frame.getContentPane().setLayout(null);
+		frame.setVisible(true);
+		
 		
 		JFrame frame_1 = new JFrame();
 		frame_1.setBounds(-10008, -10030, 450, 300);
@@ -69,33 +74,33 @@ public class stop {
 		label_2.setBounds(134, 10, -1, 0);
 		frame_1.getContentPane().add(label_2);
 		
-		JButton button = new JButton("\uAC8C\uC7841");
-		button.setBounds(319, 46, 103, 23);
-		frame_1.getContentPane().add(button);
-		
-		JButton button_1 = new JButton("\uAC8C\uC7842");
-		button_1.setBounds(319, 89, 103, 23);
-		frame_1.getContentPane().add(button_1);
-		
-		JButton button_2 = new JButton("\uAC8C\uC7843");
-		button_2.setBounds(319, 129, 103, 23);
-		frame_1.getContentPane().add(button_2);
-		
-		JButton button_3 = new JButton("\uAC8C\uC7844");
-		button_3.setBounds(319, 169, 103, 23);
-		frame_1.getContentPane().add(button_3);
-		
-		JButton button_4 = new JButton("\uC74C\uC2DD \uC8FC\uBB38");
-		button_4.setBounds(319, 212, 103, 23);
-		frame_1.getContentPane().add(button_4);
-		
-		JButton button_5 = new JButton("\uAD00\uB9AC\uC790 \uD638\uCD9C");
-		button_5.setBounds(176, 212, 103, 23);
-		frame_1.getContentPane().add(button_5);
-		
-		JButton button_6 = new JButton("\uB2E4\uC2DC\uC2DC\uC791");
-		button_6.setBounds(30, 212, 97, 23);
-		frame_1.getContentPane().add(button_6);
+//		JButton button = new JButton("\uAC8C\uC7841");
+//		button.setBounds(319, 46, 103, 23);
+//		frame_1.getContentPane().add(button);
+//		
+//		JButton button_1 = new JButton("\uAC8C\uC7842");
+//		button_1.setBounds(319, 89, 103, 23);
+//		frame_1.getContentPane().add(button_1);
+//		
+//		JButton button_2 = new JButton("\uAC8C\uC7843");
+//		button_2.setBounds(319, 129, 103, 23);
+//		frame_1.getContentPane().add(button_2);
+//		
+//		JButton button_3 = new JButton("\uAC8C\uC7844");
+//		button_3.setBounds(319, 169, 103, 23);
+//		frame_1.getContentPane().add(button_3);
+//		
+//		JButton button_4 = new JButton("\uC74C\uC2DD \uC8FC\uBB38");
+//		button_4.setBounds(319, 212, 103, 23);
+//		frame_1.getContentPane().add(button_4);
+//		
+//		JButton button_5 = new JButton("\uAD00\uB9AC\uC790 \uD638\uCD9C");
+//		button_5.setBounds(176, 212, 103, 23);
+//		frame_1.getContentPane().add(button_5);
+//		
+//		JButton button_6 = new JButton("\uB2E4\uC2DC\uC2DC\uC791");
+//		button_6.setBounds(30, 212, 97, 23);
+//		frame_1.getContentPane().add(button_6);
 		
 		textField = new JTextField();
 		textField.setText("        \uB0A8\uC740\uC2DC\uAC04");
@@ -140,33 +145,37 @@ public class stop {
 		label_8.setBounds(134, 10, -1, 0);
 		frame_2.getContentPane().add(label_8);
 		
-		JButton button_7 = new JButton("\uAC8C\uC7841");
-		button_7.setBounds(319, 46, 103, 23);
-		frame_2.getContentPane().add(button_7);
+//		JButton button_7 = new JButton("\uAC8C\uC7841");
+//		button_7.setBounds(319, 46, 103, 23);
+//		frame_2.getContentPane().add(button_7);
 		
-		JButton button_8 = new JButton("\uAC8C\uC7842");
-		button_8.setBounds(319, 89, 103, 23);
-		frame_2.getContentPane().add(button_8);
+//		JButton button_8 = new JButton("\uAC8C\uC7842");
+//		button_8.setBounds(319, 89, 103, 23);
+//		frame_2.getContentPane().add(button_8);
 		
-		JButton button_9 = new JButton("\uAC8C\uC7843");
-		button_9.setBounds(319, 129, 103, 23);
-		frame_2.getContentPane().add(button_9);
+//		JButton button_9 = new JButton("\uAC8C\uC7843");
+//		button_9.setBounds(319, 129, 103, 23);
+//		frame_2.getContentPane().add(button_9);
 		
-		JButton button_10 = new JButton("\uAC8C\uC7844");
-		button_10.setBounds(319, 169, 103, 23);
-		frame_2.getContentPane().add(button_10);
+//		JButton button_10 = new JButton("\uAC8C\uC7844");
+//		button_10.setBounds(319, 169, 103, 23);
+//		frame_2.getContentPane().add(button_10);
 		
-		JButton button_11 = new JButton("\uC74C\uC2DD \uC8FC\uBB38");
-		button_11.setBounds(319, 212, 103, 23);
-		frame_2.getContentPane().add(button_11);
+//		JButton button_11 = new JButton("\uC74C\uC2DD \uC8FC\uBB38");
+//		button_11.setBounds(319, 212, 103, 23);
+//		frame_2.getContentPane().add(button_11);
 		
-		JButton button_12 = new JButton("\uAD00\uB9AC\uC790 \uD638\uCD9C");
-		button_12.setBounds(176, 212, 103, 23);
-		frame_2.getContentPane().add(button_12);
+//		JButton button_12 = new JButton("\uAD00\uB9AC\uC790 \uD638\uCD9C");
+//		button_12.setBounds(176, 212, 103, 23);
+//		frame_2.getContentPane().add(button_12);
+//		
+//		JButton button_13 = new JButton("\uC77C\uC2DC\uC815\uC9C0");
+//		button_13.setBounds(30, 212, 97, 23);
+//		frame_2.getContentPane().add(button_13);
+//		
+//		
+//		
 		
-		JButton button_13 = new JButton("\uC77C\uC2DC\uC815\uC9C0");
-		button_13.setBounds(30, 212, 97, 23);
-		frame_2.getContentPane().add(button_13);
 		
 		textField_3 = new JTextField();
 		textField_3.setText("        \uB0A8\uC740\uC2DC\uAC04");
@@ -233,6 +242,7 @@ public class stop {
 		textField_7.setBounds(134, 124, 145, 23);
 		frame.getContentPane().add(textField_7);
 		
+		//게임3
 		JButton button_16 = new JButton("\uAC8C\uC7843");
 		button_16.setBounds(319, 126, 103, 23);
 		frame.getContentPane().add(button_16);
@@ -247,22 +257,37 @@ public class stop {
 		textField_8.setBounds(134, 172, 145, 23);
 		frame.getContentPane().add(textField_8);
 		
+		//게임4
 		JButton button_17 = new JButton("\uAC8C\uC7844");
 		button_17.setBounds(319, 172, 103, 23);
 		frame.getContentPane().add(button_17);
 		
+		//다시시작
 		JButton button_18 = new JButton("\uB2E4\uC2DC\uC2DC\uC791");
 		button_18.setBounds(30, 217, 97, 23);
 		frame.getContentPane().add(button_18);
+		
+		button_18.addActionListener(new Mylistener());
 		
 		JButton button_19 = new JButton("\uAD00\uB9AC\uC790 \uD638\uCD9C");
 		button_19.setBounds(176, 217, 103, 23);
 		frame.getContentPane().add(button_19);
 		
+		//음식주문
 		JButton button_20 = new JButton("\uC74C\uC2DD \uC8FC\uBB38");
 		button_20.setBounds(319, 217, 103, 23);
 		frame.getContentPane().add(button_20);
 		
 		frame.setSize(500, 300);
 	}
+	class Mylistener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			frame.dispose();
+		}
+		
+	}
+	
 }
