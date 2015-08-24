@@ -6,6 +6,8 @@ import java.util.List;
 
 
 
+
+
 public class JoinDao {
 
 	private Connection con;
@@ -55,6 +57,24 @@ public class JoinDao {
 		
 	}
 	
+	public void delete(String id){
+		try {
+			String sql="delete from join_tb where user_id =? ";
+			pstmt= con.prepareStatement(sql);
+			
+			pstmt.setString(1,id);
+			
+			int result = pstmt.executeUpdate();
+			System.out.println("delete 완료 :" +result);
+			
+			
+		} catch (SQLException e) {
+			System.out.println("delete 오류 :"+e);
+		}
+		
+		
+	}
+	
 	
 	public Join select(String id){
 		Join result=null;
@@ -82,7 +102,32 @@ public class JoinDao {
 	}
 	
 	
-
+	public List<Join> selectList(){
+		List<Join> result=new ArrayList<>();
+		try {
+			String sql="select * from join_tb";
+			stmt = con.createStatement();
+			
+			rs =pstmt.executeQuery(sql);
+			
+			while(rs.next()){
+				Join joinSelect = new Join();
+				joinSelect.setUserId(rs.getString(1));
+				joinSelect.setPassword(rs.getString(2));
+				joinSelect.setCellPhone(rs.getString(3));
+				joinSelect.setBirth(rs.getString(4));
+				
+				result.add(joinSelect);
+			}
+			
+			
+		} catch (SQLException e) {
+			System.out.println("select 1 오류 :"+e);
+		}		
+		return result;
+	}
+		
+	
 
 	
 	

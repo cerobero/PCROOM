@@ -8,6 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 
@@ -61,7 +62,7 @@ public class FrameLogin extends JFrame {
 		panel_login.add(label_pw);
 
 		
-		textfield_pw = new JTextField();
+		textfield_pw = new JPasswordField();
 		textfield_pw.setBounds(100, 170, 100, 20);
 		panel_login.add(textfield_pw);
 		
@@ -69,13 +70,12 @@ public class FrameLogin extends JFrame {
 		button_join = new JButton("회원가입");
 		panel_login.add(button_join);
 		button_join.setBounds(20, 250, 100, 30);
-		//회원가입버튼누르면 회원가입(FrameJoin)으로
 		
 		
 		button_login = new JButton("로그인");
 		panel_login.add(button_login);
 		button_login.setBounds(130, 250, 100, 30);
-		//이벤트
+		
 		MyListener my = new MyListener();
 		button_join.addActionListener(my);
 		button_login.addActionListener(my);
