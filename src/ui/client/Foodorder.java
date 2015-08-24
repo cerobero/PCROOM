@@ -30,6 +30,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import asset.GeneralSet;
+
 public class Foodorder extends JFrame implements ActionListener {
 	Connection con = null;
 	Statement stmt = null;
@@ -48,10 +50,17 @@ public class Foodorder extends JFrame implements ActionListener {
 
 	// private JCheckBox noodle,welch,mandoo;
 	public Foodorder() {
-		String driver = "com.mysql.jdbc.Driver";
-		String db_url = "jdbc:mysql://localhost:3306/product_db";
-		String db_id = "root";
-		String do_pw = "hanbit";
+		/* GEONWOO-CHO 0824
+		 * 상수값 GeneralSet에서 관리
+		 */
+//		String driver = "com.mysql.jdbc.Driver";
+//		String db_url = "jdbc:mysql://localhost:3306/product_db";
+//		String db_id = "root";
+//		String do_pw = "hanbit";
+		String driver = GeneralSet.DB_DRIVER;
+		String db_url = GeneralSet.FOOD_DB_URL;
+		String db_id = GeneralSet.FOOD_DB_ID;
+		String do_pw = GeneralSet.FOOD_DB_PW;
 		String sql = null;
 		String str;
 
