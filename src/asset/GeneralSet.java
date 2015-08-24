@@ -10,6 +10,11 @@ public class GeneralSet
 	public static final String FOOD_DB_ID = "root";
 	public static final String FOOD_DB_PW = "hanbit";
 	
+	public static enum ClientAct
+	{
+		SEND_MESSAGE, ORDER_FOOD
+	}
+	
 	public static void print(String msg)
 	{
 		StackTraceElement elem = new Throwable().getStackTrace()[1];
