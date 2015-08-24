@@ -14,7 +14,7 @@ import java.awt.event.ActionEvent;
 
 public class userPay {
 
-	private JFrame frame;
+	JFrame frame;
 	private JTextField textField_1;
 	private JTextField textField_2;
 	private JTextField textField;
@@ -22,23 +22,26 @@ public class userPay {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					userPay window = new userPay();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					userPay window = new userPay();
+//					//window.frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the application.
 	 */
 	public userPay() {
+
+		
+		
 		initialize();
 	}
 
@@ -46,10 +49,13 @@ public class userPay {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+
+		
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
+		frame.setVisible(true);
 		
 		JPanel panel = new JPanel();
 		panel.setBounds(76, 59, 10, 10);
@@ -100,6 +106,9 @@ public class userPay {
 		JButton btnNewButton_6 = new JButton("\uC77C\uC2DC\uC815\uC9C0");
 		btnNewButton_6.setBounds(30, 212, 97, 23);
 		frame.getContentPane().add(btnNewButton_6);
+		//일시정지 이벤트
+		btnNewButton_6.addActionListener(new Mylistener());
+		
 		
 		textField_1 = new JTextField();
 		textField_1.setText("          \uB0A8\uC740\uC2DC\uAC04");
@@ -131,4 +140,16 @@ public class userPay {
 		label_1.setBounds(30, 124, 98, 19);
 		frame.getContentPane().add(label_1);
 	}
+///////////////////////////////////////////////////////////////////////////////////////
+	
+	class Mylistener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			stop stop= new stop();
+		}
+		
+	}
+	
 }
