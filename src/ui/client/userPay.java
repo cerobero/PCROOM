@@ -50,12 +50,17 @@ public class userPay {
 	 */
 	private void initialize() {
 
-		
+
 		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
+		frame.setSize(500, 300);
+		//frame.setBounds(100, 100, 450, 300);
 		//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		frame.setVisible(true);
+
+		//À§Ä¡Á¤Áß¾Ó
+		frame.setLocationRelativeTo(null);
+		//frame.setLocation(400, 300);
 		
 		JPanel panel = new JPanel();
 		panel.setBounds(76, 59, 10, 10);
