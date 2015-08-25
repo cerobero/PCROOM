@@ -285,6 +285,7 @@ public class stop {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
+			new userPay();
 			frame.dispose();
 		}
 		

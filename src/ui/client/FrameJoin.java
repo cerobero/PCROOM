@@ -101,10 +101,8 @@ public class FrameJoin extends JFrame {
 			
 			dao.insert(newJoin);
 			
-			textfield_id.setText("");
-			textfield_pw.setText("");
-			textfield_phone.setText("");
-			textfield_birth.setText("");
+			dao.exit();
+			dispose();
 			
 			}else if(e.getSource() == button_cancel){
 				textfield_id.setText("");
@@ -112,7 +110,7 @@ public class FrameJoin extends JFrame {
 				textfield_phone.setText("");
 				textfield_birth.setText("");
 			}
-			dao.exit();
+		//	dao.exit();
 		}
 		
 	}

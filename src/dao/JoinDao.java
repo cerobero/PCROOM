@@ -4,6 +4,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import asset.GeneralSet;
+
 
 
 
@@ -80,11 +82,15 @@ public class JoinDao {
 		Join result=null;
 		try {
 			String sql="select * from join_tb where user_id=? ";
+			//GeneralSet.print("1");
 			pstmt= con.prepareStatement(sql);
+			//GeneralSet.print("2");
 			
 			pstmt.setString(1,id);
+			//GeneralSet.print("3");
 			
 			rs =pstmt.executeQuery();
+			//GeneralSet.print("4");
 			
 			if(rs.next()){
 				result = new Join();

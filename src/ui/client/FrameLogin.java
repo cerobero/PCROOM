@@ -103,15 +103,18 @@ public class FrameLogin extends JFrame {
 			findId=dao.select(textfield_id.getText());
 			
 			if(findId !=null){
+			//	GeneralSet.print(findId.getUserId());
+			//	GeneralSet.print(findId.getPassword());
+			//	GeneralSet.print(textfield_pw.getText());
 				if(findId.getPassword().equals(textfield_pw.getText())){
 					GeneralSet.print("로그인 성공!");
 					textfield_id.setText("");
 					textfield_pw.setText("");
-					//번호 사용자 선후불 불러오게!
+				
 					userPay userpay = new userPay();
+					
+					dao.exit();
 					dispose();
-					
-					
 					
 					
 				}else{
@@ -124,7 +127,7 @@ public class FrameLogin extends JFrame {
 				textfield_pw.setText("");
 			}
 			
-			dao.exit();
+		
 			}
 		}
 		

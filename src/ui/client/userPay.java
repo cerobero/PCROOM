@@ -148,6 +148,7 @@ public class userPay {
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
 			stop stop= new stop();
+			frame.dispose();
 		}
 		
 	}
