@@ -18,6 +18,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import asset.GeneralSet.ClientAct;
+
 public class Manager_Call extends JFrame {
 	private String msg = "전송 메시지";
 	private TextField call_Message = new TextField(msg, 35);
@@ -28,7 +30,7 @@ public class Manager_Call extends JFrame {
 	private Label labelA;
 	private JButton send;
 	private JButton cancel;
-	
+
 	private BufferedWriter bw;
 
 	public Manager_Call() {
@@ -36,7 +38,7 @@ public class Manager_Call extends JFrame {
 		panel1 = new JPanel();
 		panel2 = new JPanel();
 		panel3 = new JPanel();
-		fontA = new Font("Gothic", Font.BOLD, 45);
+		fontA = new Font("맑은 고딕", Font.BOLD, 45);
 		labelA = new Label("관리자 호출");
 		send = new JButton("보내기");
 		cancel = new JButton("취소");
@@ -69,10 +71,12 @@ public class Manager_Call extends JFrame {
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
-		
+
 		try {
 			Socket socket=new Socket(InetAddress.getByName("localhost"),9999);
 			bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+			bw.write("1" + '\n');
+			bw.flush();
 		} catch (IOException e) {
 			System.out.println("서버와 연결되지 않았습니다." + e);
 		}
@@ -91,6 +95,11 @@ public class Manager_Call extends JFrame {
 			if (e.getSource() == send) {
 				msg = call_Message.getText();
 				try {
+					/* GEONWOO-CHO 0821
+					 * 먼저 PC 번호 전송하고 메시지 전송
+					 */
+					bw.write(ClientAct.SEND_MESSAGE.name() + '\n');
+					bw.flush();
 					bw.write(msg+"\n");
 					bw.flush();
 				} catch (IOException e1) {

@@ -6,13 +6,13 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -26,6 +26,8 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import asset.GeneralSet;
+
 public class FrameAdmin extends JFrame
 {
 
@@ -37,7 +39,7 @@ public class FrameAdmin extends JFrame
 	private int visitGuestCount;
 
 	private PanelUserInform[] userManagePanes = new PanelUserInform[8];
-	
+
 
 	/**
 	 * Launch the application.
@@ -179,29 +181,29 @@ public class FrameAdmin extends JFrame
 		button_3.setPreferredSize(new Dimension(100, 0));
 		button_3.setFont(new Font("∏º¿∫ ∞ÌµÒ", Font.BOLD, 14));
 		buttonPane.add(button_3);
-		
+
 		/* GEONWOO-CHO 0821 FrameAdmin */
 		setVisible(true);
 		threadStart();
 	}
-	
+
 	private void threadStart()
 	{
 		SetInform setInform = new SetInform();
-		ReadUserMessage readMessage = new ReadUserMessage(this);
-		
+		Server server = new Server(this);
+
 		setInform.start();
-		readMessage.start();
+		server.start();
 	}
 
 	public class SetInform extends Thread
 	{
 		private Calendar cal;
-		
+
 		private int year;
 		private int month;
 		private int date;
-		
+
 		private int hour;
 		private int min;
 		private int sec;
@@ -212,11 +214,11 @@ public class FrameAdmin extends JFrame
 			for (;;)
 			{
 				cal = Calendar.getInstance();
-				
+
 				year = cal.get(cal.YEAR);
 				month = cal.get(cal.MONTH) + 1;
 				date = cal.get(cal.DATE);
-				
+
 				hour = cal.get(cal.HOUR_OF_DAY);
 				min = cal.get(cal.MINUTE);
 				sec = cal.get(cal.SECOND);
@@ -265,64 +267,43 @@ public class FrameAdmin extends JFrame
 			return sec;
 		}
 	}
-	
-	public class ReadUserMessage extends Thread
+
+	public class Server extends Thread
 	{
 		private ServerSocket server;
 		private Socket socket;
-		private BufferedReader reader;
-		private PanelMessagePopup userMessagePane;
 		private JFrame frame;
-		
-		public ReadUserMessage(JFrame frame)
+		private List<ClientHandler> clientList = new ArrayList<ClientHandler>();
+
+		public Server(JFrame frame)
 		{
 			this.frame = frame;
 		}
 		
+		public void clientExit(ClientHandler thread)
+		{
+			clientList.remove(thread);
+		}
+
 		@Override
 		public void run()
 		{
 			try
 			{
 				server = new ServerSocket(9999);
-				userMessagePane = new PanelMessagePopup();
+				for (;;)
+				{
+					socket = server.accept();
+
+					ClientHandler clientThread = new ClientHandler(this, socket, frame);
+					clientList.add(clientThread);
+					
+					clientThread.start();
+				}
 			}
 			catch (IOException e)
 			{
 				e.printStackTrace();
-			}
-			
-			for (;;)
-			{
-				try
-				{
-					socket = server.accept();
-					System.out.println("accepted");
-					reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-					userMessagePane.setPcNum(Integer.parseInt(reader.readLine()));
-					System.out.println("read number");
-					userMessagePane.setUserMessage(reader.readLine());
-					System.out.println("read message");
-
-					userMessagePane.setSize(new Dimension(300, 200));
-					userMessagePane.setLocationRelativeTo(frame);
-					userMessagePane.setVisible(true);
-
-					Thread.sleep(5000);
-				}
-				catch (SocketException e)
-				{
-					System.out.println("ø¨∞·¡æ∑·");
-				}
-				catch (IOException e)
-				{
-					e.printStackTrace();
-				}
-				catch (InterruptedException e)
-				{
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 			}
 		}
 	}
