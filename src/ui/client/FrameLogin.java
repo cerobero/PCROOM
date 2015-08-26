@@ -102,7 +102,7 @@ public class FrameLogin extends JFrame {
 				FrameJoin frameJoin =new FrameJoin();
 				
 				
-			}else if(e.getSource() == button_login){
+			}else{
 			
 			findId=dao.select(textfield_id.getText());
 			
