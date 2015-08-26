@@ -23,6 +23,9 @@ public class userPay {
 	private JTextField usedTimeText;
 	private JButton orderButton;
 	private JButton pauseButton;
+	private JButton adminCall;
+	private JLabel numberLabel;
+	private JLabel payLabel;
 
 	/**
 	 * Launch the application.
@@ -58,17 +61,20 @@ public class userPay {
 		// frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		frame.setVisible(true);
+		
+		//위치정중앙
+		frame.setLocationRelativeTo(null);
 
 		JPanel panel = new JPanel();
 		panel.setBounds(76, 59, 10, 10);
 		frame.getContentPane().add(panel);
 
-		JLabel numberLabel = new JLabel("     번호");
+		numberLabel = new JLabel("     번호");
 		numberLabel .setFont(new Font("굴림", Font.PLAIN, 19));
 		numberLabel .setBounds(27, 20, 72, 35);
 		frame.getContentPane().add(numberLabel );
 
-		JLabel payLabel = new JLabel("      사용자 선후불");
+		payLabel = new JLabel("      사용자 선후불");
 		payLabel.setFont(new Font("굴림", Font.PLAIN, 19));
 		payLabel.setBounds(111, 20, 168, 35);
 		frame.getContentPane().add(payLabel);
@@ -99,10 +105,11 @@ public class userPay {
 		Mylistener li = new Mylistener();
 		orderButton.addActionListener(li);
 
-		JButton adminCall = new JButton("관리자 호출");
+		adminCall = new JButton("관리자 호출");
 		adminCall.setBounds(176, 212, 103, 23);
 		frame.getContentPane().add(adminCall);
-
+		adminCall.addActionListener(li);
+		
 		pauseButton = new JButton("일시 정지");
 		pauseButton.setBounds(30, 212, 97, 23);
 		frame.getContentPane().add(pauseButton);
@@ -147,9 +154,12 @@ public class userPay {
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == orderButton) {
 				new Foodorder();
-			} else if (e.getSource() == pauseButton) {
-				new stop();
-			}
+			} 	else if (e.getSource() == pauseButton) {
+//				new stop();
+			
+				
+			
+			} 
 		}
 
 	}
