@@ -79,12 +79,16 @@ public class FrameLogin extends JFrame {
 		MyListener my = new MyListener();
 		button_join.addActionListener(my);
 		button_login.addActionListener(my);
+		textfield_id.addActionListener(my);
+		textfield_pw.addActionListener(my);
 		
 	
 		setSize(750, 400);
 		setTitle("PC방 프로그램");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
+		//위치정중앙
+		setLocationRelativeTo(null);
 
 	}
 	

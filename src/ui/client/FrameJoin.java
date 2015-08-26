@@ -9,23 +9,24 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import asset.GeneralSet;
 import dao.Join;
 import dao.JoinDao;
 
 public class FrameJoin extends JFrame {
-	private JTextField textfield_id; 
-	private JTextField textfield_pw; 
+	private JTextField textfield_id;
+	private JTextField textfield_pw;
 	private JTextField textfield_phone;
 	private JTextField textfield_birth;
-	private JButton button_join; 
-	private JButton button_cancel; 
-////////////////////////////////////////////////////////////////////	
+	private JButton button_join;
+	private JButton button_cancel;
+	////////////////////////////////////////////////////////////////////
 	JoinDao dao = new JoinDao();
 	Join newJoin;
-	
-////////////////////////////////////////////////////////////////////
+
+	////////////////////////////////////////////////////////////////////
 	public FrameJoin() {
-		
+
 		setLayout(null);
 
 		JLabel label_title = new JLabel("회원가입");
@@ -68,58 +69,69 @@ public class FrameJoin extends JFrame {
 		button_join = new JButton("회원가입");
 		button_join.setBounds(30, 250, 100, 30);
 		add(button_join);
-		
-		
+
 		button_cancel = new JButton("취소");
 		button_cancel.setBounds(150, 250, 100, 30);
 		add(button_cancel);
-		
-		//이벤트
+
+		// 이벤트
 		MyListener my = new MyListener();
 		button_join.addActionListener(my);
 		button_cancel.addActionListener(my);
-		
-		
+
 		setSize(300, 350);
 		setTitle("회원가입");
-	//	setDefaultCloseOperation(EXIT_ON_CLOSE);
+		// setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
 
+		// 위치정중앙
+		setLocationRelativeTo(null);
+
 	}
-///////////////////////////////////////////////////////
-	class MyListener implements ActionListener{
+
+	///////////////////////////////////////////////////////
+	class MyListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if(e.getSource() == button_join){
-			
-			newJoin = new Join();
-			newJoin.setUserId(textfield_id.getText());
-			newJoin.setPassword(textfield_pw.getText());
-			newJoin.setCellPhone(textfield_birth.getText());
-			newJoin.setBirth(textfield_birth.getText());
-			
-			dao.insert(newJoin);
-			
-			dao.exit();
-			dispose();
-			
-			}else if(e.getSource() == button_cancel){
-				textfield_id.setText("");
-				textfield_pw.setText("");
-				textfield_phone.setText("");
-				textfield_birth.setText("");
+			if (e.getSource() == button_join) {
+
+				boolean isJoin = false;
+
+				isJoin = (textfield_id.getText() != null && textfield_id.getText().length() > 0
+						&& textfield_pw.getText() != null && textfield_pw.getText().length() > 0);
+
+				if (isJoin) {
+					System.out.println("test:" + textfield_id.getText());
+					newJoin = new Join();
+					newJoin.setUserId(textfield_id.getText());
+					newJoin.setPassword(textfield_pw.getText());
+					newJoin.setCellPhone(textfield_birth.getText());
+					newJoin.setBirth(textfield_birth.getText());
+
+					dao.insert(newJoin);
+
+					dao.exit();
+					dispose();
+				}
+				// else{
+				// System.out.println("input 모자람");
+				// return;
+				// }
+
+			} else if (e.getSource() == button_cancel) {
+				dispose();
 			}
-		//	dao.exit();
+			// dao.exit();
 		}
-		
+
 	}
-	
-///////////////////////////////////////////////////////	
-//	
-//	
-//	public static void main(String[] args) {
-//		new FrameJoin();
-//	}
-//
+
+	///////////////////////////////////////////////////////
+	//
+	//
+	// public static void main(String[] args) {
+	// new FrameJoin();
+	// }
+	//
 }
