@@ -103,7 +103,7 @@ public class userPay {
 		adminCall.setBounds(176, 212, 103, 23);
 		frame.getContentPane().add(adminCall);
 
-		pauseButton = new JButton("일시정지");
+		pauseButton = new JButton("일시 정지");
 		pauseButton.setBounds(30, 212, 97, 23);
 		frame.getContentPane().add(pauseButton);
 		// 일시정지 이벤트
