@@ -8,6 +8,8 @@ import java.awt.Label;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -53,6 +55,7 @@ public class Manager_Call extends JFrame {
 		labelA.setFont(fontA);
 		call_Message.setEnabled(true);
 		call_Message.addActionListener(new Consol());
+		call_Message.addKeyListener(new Consol());
 
 		panel1.add(labelA, BorderLayout.CENTER);
 
@@ -71,10 +74,13 @@ public class Manager_Call extends JFrame {
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
+		//위치 정중앙
+		setLocationRelativeTo(null);
 
 		try {
-			Socket socket=new Socket(InetAddress.getByName("localhost"),9999);
-			bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+			Socket socket = new Socket(InetAddress.getByName("localhost"), 9999);
+			bw = new BufferedWriter(new OutputStreamWriter(
+					socket.getOutputStream()));
 			bw.write("1" + '\n');
 			bw.flush();
 		} catch (IOException e) {
@@ -88,20 +94,22 @@ public class Manager_Call extends JFrame {
 
 	}
 
-	class Consol implements ActionListener {
+	class Consol implements ActionListener, KeyListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == send) {
 				msg = call_Message.getText();
 				try {
-					/* GEONWOO-CHO 0821
-					 * 먼저 PC 번호 전송하고 메시지 전송
+					/*
+					 * GEONWOO-CHO 0821 먼저 PC 번호 전송하고 메시지 전송
 					 */
 					bw.write(ClientAct.SEND_MESSAGE.name() + '\n');
 					bw.flush();
-					bw.write(msg+"\n");
+					bw.write(msg + "\n");
 					bw.flush();
+					//전송하면 텍스트필드의 글을 지움
+					call_Message.setText(null);
 				} catch (IOException e1) {
 					System.out.println("어떤 이유로 메시지가 전달되지 않았습니다." + e);
 				}
@@ -112,6 +120,36 @@ public class Manager_Call extends JFrame {
 			}
 
 		}
+		/*
+		 * 엔터키 눌러도 전송 가능하도록 함
+		 */
+		@Override
+		public void keyPressed(KeyEvent e) {
+			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+				msg = call_Message.getText();
+				try {
+					bw.write(ClientAct.SEND_MESSAGE.name() + '\n');
+					bw.flush();
+					bw.write(msg + "\n");
+					bw.flush();
+				} catch (IOException e2) {
+					System.out.println("어떤 이유로 메시지가 전달되지 않았습니다." + e2);
+				}
 
+			}
+		}
+		/*
+		*엔터키를 눌렀다 떼면 텍스트필드의 글이 지워짐
+		*/
+
+		@Override
+		public void keyReleased(KeyEvent arg0) {
+			
+			call_Message.setText(null);
+			
+		}
+
+		@Override
+		public void keyTyped(KeyEvent arg0) {}
 	}
 }
