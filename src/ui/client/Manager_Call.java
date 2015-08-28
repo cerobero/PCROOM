@@ -123,6 +123,8 @@ public class Manager_Call extends JDialog {
 				try {
 					bw.write(ClientAct.SEND_MESSAGE.name() + '\n');
 					bw.flush();
+					bw.write("1" + '\n');
+					bw.flush();
 					bw.write(msg + "\n");
 					bw.flush();
 				} catch (IOException e2) {
