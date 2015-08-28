@@ -58,6 +58,8 @@ public class PanelMessagePopup extends JDialog
 
 		confirmPane.add(confirmButton);
 		
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		
 		threadStart();
 	}
 	

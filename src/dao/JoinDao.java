@@ -20,7 +20,7 @@ public class JoinDao {
 	private static final String DriverName ="com.mysql.jdbc.Driver";
 	private static final String URL="jdbc:mysql://localhost:3306/join_db"; 
 	private static final String ID= "root";
-	private static final String PW= "hanbit";
+	private static final String PW= "1234";
 	
 	public JoinDao(){
 		try {

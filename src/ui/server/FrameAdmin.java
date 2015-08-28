@@ -9,10 +9,9 @@ import java.awt.GridLayout;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketException;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -22,11 +21,10 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
-
-import asset.GeneralSet;
 
 public class FrameAdmin extends JFrame
 {
@@ -36,10 +34,11 @@ public class FrameAdmin extends JFrame
 	private JTextField dateField;
 	private JTextField timeField;
 	private JTextField guestCountField;
-	private int visitGuestCount;
+	private int visitGuestCount = 0;
 
 	private PanelUserInform[] userManagePanes = new PanelUserInform[8];
-
+//	private Map<Integer, PanelUserInform> userManagePanes = new HashMap<Integer, PanelUserInform>();
+	private Map<Integer, ClientHandler> clientList = new HashMap<>();
 
 	/**
 	 * Launch the application.
@@ -127,7 +126,6 @@ public class FrameAdmin extends JFrame
 		guestCountField = new JTextField();
 		guestCountField.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 12));
 		guestCountField.setHorizontalAlignment(SwingConstants.RIGHT);
-		visitGuestCount = 5;
 		guestCountField.setText("¿À´Ã ¼Õ´Ô¼ö : " + visitGuestCount + "¸í");
 		guestCountField.setEditable(false);
 		guestCountField.setBorder(null);
@@ -137,9 +135,12 @@ public class FrameAdmin extends JFrame
 
 		JPanel centerPane = new JPanel();
 
-		for (int i = 0; i < userManagePanes.length; i++)
+		for (int i = 0; i < 8; i++)
 		{
-			userManagePanes[i] = new PanelUserInform();
+//			userManagePanes.put(i, new PanelUserInform());
+//			centerPane.add(userManagePanes.get(i));
+			userManagePanes[i] = new PanelUserInform(clientList);
+			userManagePanes[i].setBackGroundColor(Color.DARK_GRAY);
 			centerPane.add(userManagePanes[i]);
 		}
 
@@ -225,6 +226,7 @@ public class FrameAdmin extends JFrame
 
 				dateField.setText(String.format("%02d/%02d/%02d", year, month, date));
 				timeField.setText(String.format("%02d:%02d:%02d", hour, min, sec));
+				guestCountField.setText("¿À´Ã ¼Õ´Ô¼ö : " + visitGuestCount + "¸í");
 
 				try
 				{
@@ -273,16 +275,36 @@ public class FrameAdmin extends JFrame
 		private ServerSocket server;
 		private Socket socket;
 		private JFrame frame;
-		private List<ClientHandler> clientList = new ArrayList<ClientHandler>();
+//		private List<ClientHandler> clientList = new ArrayList<ClientHandler>();
+//		private Map<Integer, ClientHandler> clientList = new HashMap<>();
+		private int numOfUser = 0;
 
 		public Server(JFrame frame)
 		{
 			this.frame = frame;
 		}
-		
+
 		public void clientExit(ClientHandler thread)
 		{
+			userManagePanes[thread.getPcNum() - 1].setBackGroundColor(Color.DARK_GRAY);
+			userManagePanes[thread.getPcNum() - 1].reset();
 			clientList.remove(thread);
+			if (clientList.get(thread.getPcNum() - 1) != null)
+			{
+				clientList.put(thread.getPcNum() - 1, null);
+			}
+			numOfUser--;
+		}
+
+		public void panelUpdate(ClientHandler thread)
+		{
+			int pcNum = thread.getPcNum();
+//			GeneralSet.print((thread.getPcNum() - 1) + "");
+			userManagePanes[pcNum - 1].setPcNum(pcNum);
+			userManagePanes[pcNum - 1].setUserID(thread.getUserId());
+			userManagePanes[pcNum - 1].refresh();
+//			userManagePanes.get(thread.getPcNum() - 1).setPcNum(thread.getPcNum());
+//			userManagePanes.get(thread.getPcNum() - 1).refresh();
 		}
 
 		@Override
@@ -295,10 +317,24 @@ public class FrameAdmin extends JFrame
 				{
 					socket = server.accept();
 
-					ClientHandler clientThread = new ClientHandler(this, socket, frame);
-					clientList.add(clientThread);
-					
-					clientThread.start();
+					if (numOfUser < 8)
+					{
+						for (int i = 0; i < 8; i++)
+						{
+							if (clientList.get(i) == null)
+							{
+								ClientHandler clientThread = new ClientHandler(this, socket, frame, i + 1);
+								clientList.put(i, clientThread);
+								userManagePanes[i].setBackGroundColor(UIManager.getColor("Panel.background"));
+								visitGuestCount++;
+								numOfUser++;
+
+								clientThread.start();
+								break;
+							}
+						}
+
+					}
 				}
 			}
 			catch (IOException e)
@@ -307,5 +343,4 @@ public class FrameAdmin extends JFrame
 			}
 		}
 	}
-
 }
