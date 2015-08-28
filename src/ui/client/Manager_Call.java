@@ -12,17 +12,14 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.net.InetAddress;
-import java.net.Socket;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JPanel;
 
 import asset.GeneralSet.ClientAct;
 
-public class Manager_Call extends JFrame {
+public class Manager_Call extends JDialog {
 	private String msg = "전송 메시지";
 	private TextField call_Message = new TextField(msg, 35);
 	private JPanel panel1;
@@ -35,7 +32,7 @@ public class Manager_Call extends JFrame {
 
 	private BufferedWriter bw;
 
-	public Manager_Call() {
+	public Manager_Call(BufferedWriter writer) {
 
 		panel1 = new JPanel();
 		panel2 = new JPanel();
@@ -72,27 +69,20 @@ public class Manager_Call extends JFrame {
 		setSize(300, 200);
 		setTitle("관리자 호출");
 		setVisible(true);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setResizable(false);
 		//위치 정중앙
 		setLocationRelativeTo(null);
 
-		try {
-			Socket socket = new Socket(InetAddress.getByName("localhost"), 9999);
-			bw = new BufferedWriter(new OutputStreamWriter(
-					socket.getOutputStream()));
-			bw.write("1" + '\n');
-			bw.flush();
-		} catch (IOException e) {
-			System.out.println("서버와 연결되지 않았습니다." + e);
-		}
+//			Socket socket=new Socket(InetAddress.getByName("localhost"),9999);
+			bw = writer;
 
 	}
 
-	public static void main(String[] args) {
-		Manager_Call c = new Manager_Call();
-
-	}
+//	public static void main(String[] args) {
+//		Manager_Call c = new Manager_Call();
+//
+//	}
 
 	class Consol implements ActionListener, KeyListener {
 
@@ -106,6 +96,8 @@ public class Manager_Call extends JFrame {
 					 */
 					bw.write(ClientAct.SEND_MESSAGE.name() + '\n');
 					bw.flush();
+					bw.write("1" + '\n');
+					bw.flush();
 					bw.write(msg + "\n");
 					bw.flush();
 					//전송하면 텍스트필드의 글을 지움
@@ -115,8 +107,9 @@ public class Manager_Call extends JFrame {
 				}
 
 			} else if (e.getSource() == cancel) {
-				msg = "전송 메시지";
-				call_Message.setText(msg);
+//				msg = "전송 메시지";
+//				call_Message.setText(msg);
+				dispose();
 			}
 
 		}
@@ -129,6 +122,8 @@ public class Manager_Call extends JFrame {
 				msg = call_Message.getText();
 				try {
 					bw.write(ClientAct.SEND_MESSAGE.name() + '\n');
+					bw.flush();
+					bw.write("1" + '\n');
 					bw.flush();
 					bw.write(msg + "\n");
 					bw.flush();

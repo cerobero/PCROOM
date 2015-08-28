@@ -1,19 +1,26 @@
 package ui.client;
 
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JButton;
-import javax.swing.JLabel;
 import java.awt.Font;
-import javax.swing.SwingConstants;
-
-import ui.client.FrameJoin.MyListener;
-
-import javax.swing.JTextField;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.SocketException;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import asset.GeneralSet;
+import asset.GeneralSet.ServerAct;
 
 public class userPay {
 
@@ -27,27 +34,32 @@ public class userPay {
 	private JLabel numberLabel;
 	private JLabel payLabel;
 
+	private BufferedReader reader;
+	private BufferedWriter writer;
+
+	private String userId;
+
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					userPay window = new userPay();
-					// window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	//	public static void main(String[] args) {
+	//		EventQueue.invokeLater(new Runnable() {
+	//			public void run() {
+	//				try {
+	//					userPay window = new userPay();
+	//					// window.frame.setVisible(true);
+	//				} catch (Exception e) {
+	//					e.printStackTrace();
+	//				}
+	//			}
+	//		});
+	//	}
 
 	/**
 	 * Create the application.
 	 */
-	public userPay() {
-
+	public userPay(String userId) {
+		this.userId = userId;
 		initialize();
 	}
 
@@ -58,7 +70,7 @@ public class userPay {
 
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
-		// frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		frame.setVisible(true);
 		
@@ -145,6 +157,29 @@ public class userPay {
 		JLabel spareTimeLabel = new JLabel("     남은시간 : ");
 		spareTimeLabel.setBounds(30, 124, 98, 19);
 		frame.getContentPane().add(spareTimeLabel);
+
+		try
+		{
+			Socket socket = new Socket(InetAddress.getByName("localhost"), 9999);
+			reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+
+			writer.write(userId + '\n');
+			writer.flush();
+
+			threadStart();
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+	}
+
+	public void threadStart()
+	{
+		ReadThread rt = new ReadThread();
+
+		rt.start();
 	}
 	///////////////////////////////////////////////////////////////////////////////////////
 
@@ -153,15 +188,62 @@ public class userPay {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == orderButton) {
-				new Foodorder();
-			} 	else if (e.getSource() == pauseButton) {
-//				new stop();
-			
-				
-			
-			} 
+				new Foodorder(writer);
+			} else if (e.getSource() == pauseButton) {
+				new stop();
+			}
+			else if (e.getSource() == adminCall)
+			{
+				new Manager_Call(writer);
+			}
 		}
 
+	}
+
+	private class ReadThread extends Thread
+	{
+		@Override
+		public void run()
+		{
+			for (;;)
+			{
+				try
+				{
+					GeneralSet.print("Read READY");
+					String act = reader.readLine();
+					GeneralSet.print(act);
+					if (act != null && !act.equals(""))
+					{
+						switch (ServerAct.valueOf(act))
+						{
+//						case EXIT_USE:
+//							GeneralSet.print("EXIT ACT");
+//							frame.dispose();
+//							System.exit(0);
+//							break;
+						default:
+							break;
+						}
+					}
+					else if (act == null)
+					{
+						frame.dispose();
+						System.exit(0);
+						return;
+					}
+				}
+				catch (SocketException e)
+				{
+					frame.dispose();
+					System.exit(0);
+					return;
+				}
+				catch (IOException e)
+				{
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 
 }
