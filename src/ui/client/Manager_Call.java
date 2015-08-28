@@ -100,11 +100,12 @@ public class Manager_Call extends JDialog {
 					bw.flush();
 					bw.write(msg + "\n");
 					bw.flush();
-					//전송하면 텍스트필드의 글을 지움
-					call_Message.setText(null);
+					
+					//call_Message.setText(null);
 				} catch (IOException e1) {
 					System.out.println("어떤 이유로 메시지가 전달되지 않았습니다." + e);
-				}
+					//전송하면 텍스트필드의 글을 지움
+				}finally{call_Message.setText(" ");}
 
 			} else if (e.getSource() == cancel) {
 //				msg = "전송 메시지";
