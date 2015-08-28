@@ -52,7 +52,7 @@ public class Manager_Call extends JDialog {
 		labelA.setFont(fontA);
 		call_Message.setEnabled(true);
 		call_Message.addActionListener(new Consol());
-		call_Message.addKeyListener(new Consol());
+//		call_Message.addKeyListener(new Consol());
 
 		panel1.add(labelA, BorderLayout.CENTER);
 
@@ -83,12 +83,12 @@ public class Manager_Call extends JDialog {
 //		Manager_Call c = new Manager_Call();
 //
 //	}
-
-	class Consol implements ActionListener, KeyListener {
+//키리스너 사용을 중단함
+	class Consol implements ActionListener/*, KeyListener*/ {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if (e.getSource() == send) {
+			if (e.getSource() == send||e.getSource()==call_Message) {
 				msg = call_Message.getText();
 				try {
 					/*
@@ -114,9 +114,9 @@ public class Manager_Call extends JDialog {
 
 		}
 		/*
-		 * 엔터키 눌러도 전송 가능하도록 함
+		 * 엔터키 눌러도 전송 가능하도록 함(이 부분은 취소)
 		 */
-		@Override
+/*		@Override
 		public void keyPressed(KeyEvent e) {
 			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 				msg = call_Message.getText();
@@ -137,7 +137,7 @@ public class Manager_Call extends JDialog {
 		*엔터키를 눌렀다 떼면 텍스트필드의 글이 지워짐
 		*/
 
-		@Override
+/*		@Override
 		public void keyReleased(KeyEvent arg0) {
 			
 			call_Message.setText(null);
@@ -145,6 +145,6 @@ public class Manager_Call extends JDialog {
 		}
 
 		@Override
-		public void keyTyped(KeyEvent arg0) {}
+		public void keyTyped(KeyEvent arg0) {}*/
 	}
 }
