@@ -5,8 +5,12 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -20,15 +24,13 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import asset.GeneralSet;
-import asset.GeneralSet.ClientAct;
-
-public class Foodorder extends JDialog implements ActionListener {
+public class Foodorder extends JFrame implements ActionListener {
 	Connection con = null;
 	Statement stmt = null;
 	PreparedStatement pstmt = null;
@@ -42,27 +44,27 @@ public class Foodorder extends JDialog implements ActionListener {
 	JPanel panel;
 	JTextArea dlabel;
 	StringBuffer sb = new StringBuffer();
-	private BufferedReader br;
 	private BufferedWriter bw;
 
 	// private JCheckBox noodle,welch,mandoo;
-	public Foodorder(BufferedWriter writer) {
-		/* GEONWOO-CHO 0824
-		 * 상수값 GeneralSet에서 관리
-		 */
-		//		String driver = "com.mysql.jdbc.Driver";
-		//		String db_url = "jdbc:mysql://localhost:3306/product_db";
-		//		String db_id = "root";
-		//		String do_pw = "hanbit";
-		String driver = GeneralSet.DB_DRIVER;
-		String db_url = GeneralSet.FOOD_DB_URL;
-		String db_id = GeneralSet.FOOD_DB_ID;
-		String do_pw = GeneralSet.FOOD_DB_PW;
+	public Foodorder() {
+		String driver = "com.mysql.jdbc.Driver";
+		String db_url = "jdbc:mysql://localhost:3306/product_db";
+		String db_id = "root";
+		String do_pw = "hanbit";
 		String sql = null;
 		String str;
 
-		//			Socket socket = new Socket(InetAddress.getByName("localhost"), 9999);
-		bw = writer;
+		try {
+			Socket socket = new Socket(InetAddress.getByName("203.236.209.14"), 9999);
+			bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+		} catch (UnknownHostException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 		try {
 			Class.forName(driver);
@@ -161,34 +163,27 @@ public class Foodorder extends JDialog implements ActionListener {
 		panel_4.add(lblNewLabel);
 
 		setSize(300, 400);
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
 
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		int i;
-		int lineNum = 0;
-		sb.delete(0, sb.length());
+		if (e.getSource() == cancelbtn) {
+			dispose();
+		} else {
 
-		for (i = 0; i < checkBoxList.size(); i++) {
-			if (checkBoxList.get(i).isSelected() == true) {
-				sb.append(checkBoxList.get(i).getText() + "\n");
-				System.out.println(checkBoxList.get(i).getText());
-				lineNum++;
+			for (int i = 0; i < checkBoxList.size(); i++) {
+				if (checkBoxList.get(i).isSelected() == true) {
+					sb.append(checkBoxList.get(i).getText() + "\n");
+					System.out.println(checkBoxList.get(i).getText());
+				}
 			}
-		}
-		String text = sb.toString();
+			String text = sb.toString();
 
-		if (!text.equals(""))
-		{
 			try {
-				bw.write(ClientAct.ORDER_FOOD.name() + '\n');
-				bw.flush();
-				bw.write(lineNum + "\n");
-				bw.flush();
-				bw.write(text);
+				bw.write(text + "\n");
 				bw.flush();
 			} catch (Exception e1) {
 				System.out.println("클라이언트의 접속 불량:" + e1);
@@ -203,6 +198,12 @@ public class Foodorder extends JDialog implements ActionListener {
 			dlog.setLocationRelativeTo(panel);
 			dlog.setSize(100, 200);
 			dlog.setVisible(true);
+
 		}
 	}
+
+	public static void main(String args[]) {
+		new Foodorder();
+	}
+
 }
