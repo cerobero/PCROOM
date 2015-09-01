@@ -3,6 +3,7 @@ package ui.client;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -118,7 +119,11 @@ public class FrameLogin extends JFrame {
 						textfield_id.setText("");
 						textfield_pw.setText("");
 
-						userPay userpay = new userPay(userId);
+						userPay userpay = new userPay(userId, new Date());
+                        Thread tui = new Thread(userpay);
+                        tui.start();
+                        dao.exit();
+                        dispose();
 
 						dao.exit();
 						dispose();
