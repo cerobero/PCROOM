@@ -8,17 +8,18 @@ import java.awt.Label;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.net.InetAddress;
-import java.net.Socket;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JPanel;
 
-public class Manager_Call extends JFrame {
+import asset.GeneralSet.ClientAct;
+
+public class Manager_Call extends JDialog {
 	private String msg = "전송 메시지";
 	private TextField call_Message = new TextField(msg, 35);
 	private JPanel panel1;
@@ -28,15 +29,15 @@ public class Manager_Call extends JFrame {
 	private Label labelA;
 	private JButton send;
 	private JButton cancel;
-	
+
 	private BufferedWriter bw;
 
-	public Manager_Call() {
+	public Manager_Call(BufferedWriter writer) {
 
 		panel1 = new JPanel();
 		panel2 = new JPanel();
 		panel3 = new JPanel();
-		fontA = new Font("Gothic", Font.BOLD, 45);
+		fontA = new Font("맑은 고딕", Font.BOLD, 45);
 		labelA = new Label("관리자 호출");
 		send = new JButton("보내기");
 		cancel = new JButton("취소");
@@ -51,6 +52,7 @@ public class Manager_Call extends JFrame {
 		labelA.setFont(fontA);
 		call_Message.setEnabled(true);
 		call_Message.addActionListener(new Consol());
+//		call_Message.addKeyListener(new Consol());
 
 		panel1.add(labelA, BorderLayout.CENTER);
 
@@ -67,42 +69,83 @@ public class Manager_Call extends JFrame {
 		setSize(300, 200);
 		setTitle("관리자 호출");
 		setVisible(true);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setResizable(false);
-		
-		try {
-			Socket socket=new Socket(InetAddress.getByName("localhost"),9999);
-			bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-		} catch (IOException e) {
-			System.out.println("서버와 연결되지 않았습니다." + e);
-		}
+		//위치 정중앙
+		setLocationRelativeTo(null);
+
+//			Socket socket=new Socket(InetAddress.getByName("localhost"),9999);
+			bw = writer;
 
 	}
 
-	public static void main(String[] args) {
-		Manager_Call c = new Manager_Call();
-
-	}
-
-	class Consol implements ActionListener {
+//	public static void main(String[] args) {
+//		Manager_Call c = new Manager_Call();
+//
+//	}
+//키리스너 사용을 중단함
+	class Consol implements ActionListener/*, KeyListener*/ {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if (e.getSource() == send) {
+			if (e.getSource() == send||e.getSource()==call_Message) {
 				msg = call_Message.getText();
 				try {
-					bw.write(msg+"\n");
+					/*
+					 * GEONWOO-CHO 0821 먼저 PC 번호 전송하고 메시지 전송
+					 */
+					bw.write(ClientAct.SEND_MESSAGE.name() + '\n');
 					bw.flush();
+					bw.write("1" + '\n');
+					bw.flush();
+					bw.write(msg + "\n");
+					bw.flush();
+					
+					//call_Message.setText(null);
 				} catch (IOException e1) {
 					System.out.println("어떤 이유로 메시지가 전달되지 않았습니다." + e);
-				}
+					//전송하면 텍스트필드의 글을 지움
+				}finally{call_Message.setText(" ");}
 
 			} else if (e.getSource() == cancel) {
-				msg = "전송 메시지";
-				call_Message.setText(msg);
+//				msg = "전송 메시지";
+//				call_Message.setText(msg);
+				dispose();
 			}
 
 		}
+		/*
+		 * 엔터키 눌러도 전송 가능하도록 함(이 부분은 취소)
+		 */
+/*		@Override
+		public void keyPressed(KeyEvent e) {
+			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+				msg = call_Message.getText();
+				try {
+					bw.write(ClientAct.SEND_MESSAGE.name() + '\n');
+					bw.flush();
+					bw.write("1" + '\n');
+					bw.flush();
+					bw.write(msg + "\n");
+					bw.flush();
+				} catch (IOException e2) {
+					System.out.println("어떤 이유로 메시지가 전달되지 않았습니다." + e2);
+				}
 
+			}
+		}
+		/*
+		*엔터키를 눌렀다 떼면 텍스트필드의 글이 지워짐
+		*/
+
+/*		@Override
+		public void keyReleased(KeyEvent arg0) {
+			
+			call_Message.setText(null);
+			
+		}
+
+		@Override
+		public void keyTyped(KeyEvent arg0) {}*/
 	}
 }

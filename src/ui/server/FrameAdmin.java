@@ -6,12 +6,12 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -21,6 +21,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
@@ -33,10 +34,11 @@ public class FrameAdmin extends JFrame
 	private JTextField dateField;
 	private JTextField timeField;
 	private JTextField guestCountField;
-	private int visitGuestCount;
+	private int visitGuestCount = 0;
 
 	private PanelUserInform[] userManagePanes = new PanelUserInform[8];
-	
+//	private Map<Integer, PanelUserInform> userManagePanes = new HashMap<Integer, PanelUserInform>();
+	private Map<Integer, ClientHandler> clientList = new HashMap<>();
 
 	/**
 	 * Launch the application.
@@ -124,7 +126,6 @@ public class FrameAdmin extends JFrame
 		guestCountField = new JTextField();
 		guestCountField.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 12));
 		guestCountField.setHorizontalAlignment(SwingConstants.RIGHT);
-		visitGuestCount = 5;
 		guestCountField.setText("¿À´Ã ¼Õ´Ô¼ö : " + visitGuestCount + "¸í");
 		guestCountField.setEditable(false);
 		guestCountField.setBorder(null);
@@ -134,9 +135,12 @@ public class FrameAdmin extends JFrame
 
 		JPanel centerPane = new JPanel();
 
-		for (int i = 0; i < userManagePanes.length; i++)
+		for (int i = 0; i < 8; i++)
 		{
-			userManagePanes[i] = new PanelUserInform();
+//			userManagePanes.put(i, new PanelUserInform());
+//			centerPane.add(userManagePanes.get(i));
+			userManagePanes[i] = new PanelUserInform(clientList);
+			userManagePanes[i].setBackGroundColor(Color.DARK_GRAY);
 			centerPane.add(userManagePanes[i]);
 		}
 
@@ -178,27 +182,29 @@ public class FrameAdmin extends JFrame
 		button_3.setPreferredSize(new Dimension(100, 0));
 		button_3.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 14));
 		buttonPane.add(button_3);
-		
+
+		/* GEONWOO-CHO 0821 FrameAdmin */
+		setVisible(true);
 		threadStart();
 	}
-	
+
 	private void threadStart()
 	{
 		SetInform setInform = new SetInform();
-		ReadUserMessage readMessage = new ReadUserMessage(this);
-		
+		Server server = new Server(this);
+
 		setInform.start();
-		readMessage.start();
+		server.start();
 	}
 
 	public class SetInform extends Thread
 	{
 		private Calendar cal;
-		
+
 		private int year;
 		private int month;
 		private int date;
-		
+
 		private int hour;
 		private int min;
 		private int sec;
@@ -209,17 +215,18 @@ public class FrameAdmin extends JFrame
 			for (;;)
 			{
 				cal = Calendar.getInstance();
-				
+
 				year = cal.get(cal.YEAR);
 				month = cal.get(cal.MONTH) + 1;
 				date = cal.get(cal.DATE);
-				
+
 				hour = cal.get(cal.HOUR_OF_DAY);
 				min = cal.get(cal.MINUTE);
 				sec = cal.get(cal.SECOND);
 
 				dateField.setText(String.format("%02d/%02d/%02d", year, month, date));
 				timeField.setText(String.format("%02d:%02d:%02d", hour, min, sec));
+				guestCountField.setText("¿À´Ã ¼Õ´Ô¼ö : " + visitGuestCount + "¸í");
 
 				try
 				{
@@ -262,59 +269,78 @@ public class FrameAdmin extends JFrame
 			return sec;
 		}
 	}
-	
-	public class ReadUserMessage extends Thread
+
+	public class Server extends Thread
 	{
 		private ServerSocket server;
 		private Socket socket;
-		private BufferedReader reader;
-		private PanelMessagePopup userMessagePane;
 		private JFrame frame;
-		
-		public ReadUserMessage(JFrame frame)
+//		private List<ClientHandler> clientList = new ArrayList<ClientHandler>();
+//		private Map<Integer, ClientHandler> clientList = new HashMap<>();
+		private int numOfUser = 0;
+
+		public Server(JFrame frame)
 		{
 			this.frame = frame;
 		}
-		
+
+		public void clientExit(ClientHandler thread)
+		{
+			userManagePanes[thread.getPcNum() - 1].setBackGroundColor(Color.DARK_GRAY);
+			userManagePanes[thread.getPcNum() - 1].reset();
+			clientList.remove(thread);
+			if (clientList.get(thread.getPcNum() - 1) != null)
+			{
+				clientList.put(thread.getPcNum() - 1, null);
+			}
+			numOfUser--;
+		}
+
+		public void panelUpdate(ClientHandler thread)
+		{
+			int pcNum = thread.getPcNum();
+//			GeneralSet.print((thread.getPcNum() - 1) + "");
+			userManagePanes[pcNum - 1].setPcNum(pcNum);
+			userManagePanes[pcNum - 1].setUserID(thread.getUserId());
+			userManagePanes[pcNum - 1].refresh();
+//			userManagePanes.get(thread.getPcNum() - 1).setPcNum(thread.getPcNum());
+//			userManagePanes.get(thread.getPcNum() - 1).refresh();
+		}
+
 		@Override
 		public void run()
 		{
 			try
 			{
 				server = new ServerSocket(9999);
-				userMessagePane = new PanelMessagePopup();
+				for (;;)
+				{
+					socket = server.accept();
+
+					if (numOfUser < 8)
+					{
+						for (int i = 0; i < 8; i++)
+						{
+							if (clientList.get(i) == null)
+							{
+								ClientHandler clientThread = new ClientHandler(this, socket, frame, i + 1);
+								clientList.put(i, clientThread);
+								userManagePanes[i].setBackGroundColor(UIManager.getColor("Panel.background"));
+								visitGuestCount++;
+								numOfUser++;
+
+								clientThread.start();
+								break;
+							}
+						}
+
+					}
+				}
 			}
 			catch (IOException e)
 			{
 				e.printStackTrace();
 			}
-			
-			for (;;)
-			{
-				try
-				{
-					socket = server.accept();
-					reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-					userMessagePane.setSize(new Dimension(300, 200));
-					userMessagePane.setLocationRelativeTo(frame);
-					userMessagePane.setVisible(true);
-					userMessagePane.setPcNum(Integer.parseInt(reader.readLine()));
-					userMessagePane.setUserMessage(reader.readLine());
-
-					Thread.sleep(5000);
-				}
-				catch (IOException e)
-				{
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				catch (InterruptedException e)
-				{
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
 		}
 	}
-
 }
