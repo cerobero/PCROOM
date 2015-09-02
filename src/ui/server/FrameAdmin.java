@@ -6,6 +6,8 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -166,6 +168,15 @@ public class FrameAdmin extends JFrame
 		JButton button = new JButton("À½½Ä °ü¸®");
 		button.setPreferredSize(new Dimension(100, 0));
 		button.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 14));
+		button.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				Foodadmin foodAdmin = new Foodadmin();
+				foodAdmin.setVisible(true);
+			}
+		});
 		buttonPane.add(button);
 
 		JButton button_1 = new JButton("¸Þ´º 1");
@@ -173,15 +184,15 @@ public class FrameAdmin extends JFrame
 		button_1.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 14));
 		buttonPane.add(button_1);
 
-		JButton button_2 = new JButton("¸Þ´º 2");
-		button_2.setPreferredSize(new Dimension(100, 0));
-		button_2.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 14));
-		buttonPane.add(button_2);
-
-		JButton button_3 = new JButton("¸Þ´º 3");
-		button_3.setPreferredSize(new Dimension(100, 0));
-		button_3.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 14));
-		buttonPane.add(button_3);
+//		JButton button_2 = new JButton("¸Þ´º 2");
+//		button_2.setPreferredSize(new Dimension(100, 0));
+//		button_2.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 14));
+//		buttonPane.add(button_2);
+//
+//		JButton button_3 = new JButton("¸Þ´º 3");
+//		button_3.setPreferredSize(new Dimension(100, 0));
+//		button_3.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 14));
+//		buttonPane.add(button_3);
 
 		/* GEONWOO-CHO 0821 FrameAdmin */
 		setVisible(true);

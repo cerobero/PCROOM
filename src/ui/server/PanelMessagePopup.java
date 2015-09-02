@@ -38,9 +38,9 @@ public class PanelMessagePopup extends JDialog
 
 		messageArea = new JTextArea();
 		messageArea.setBorder(new CompoundBorder(new EmptyBorder(5, 5, 5, 5), new LineBorder(new Color(128, 128, 128), 1, true)));
-		messageArea.setEnabled(false);
 		messageArea.setOpaque(false);
 		messageArea.setEditable(false);
+		messageArea.setForeground(Color.BLACK);
 		getContentPane().add(messageArea, BorderLayout.CENTER);
 
 		JPanel confirmPane = new JPanel();

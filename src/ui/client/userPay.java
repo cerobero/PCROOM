@@ -1,6 +1,5 @@
 package ui.client;
 
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -41,7 +40,8 @@ public class userPay {
 	private BufferedWriter writer;
 
 	private String userId;
-
+	private int pcNum;
+	
 	private JButton game1Button;
 	private JButton game2Button;
 	private JButton game3Button;
@@ -93,6 +93,7 @@ public class userPay {
 		initialize();
 	}
 
+
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -116,9 +117,9 @@ public class userPay {
 		numberLabel.setBounds(27, 20, 72, 35);
 		frame.getContentPane().add(numberLabel);
 
-		payLabel = new JLabel("      사용자 선후불");
+		payLabel = new JLabel("사용정보");
 		payLabel.setFont(new Font("굴림", Font.PLAIN, 19));
-		payLabel.setBounds(111, 20, 168, 35);
+		payLabel.setBounds(150, 20, 114, 35);
 		frame.getContentPane().add(payLabel);
 
 		game1Button = new JButton("게임1");
@@ -176,16 +177,16 @@ public class userPay {
 		usedTimeText.setBounds(134, 74, 145, 23);
 		frame.getContentPane().add(usedTimeText);
 
-		JLabel usedTimeLabel = new JLabel("     사용시간 : ");
-		usedTimeLabel.setBounds(30, 76, 98, 19);
+		JLabel usedTimeLabel = new JLabel("\uC0AC\uC6A9\uC2DC\uAC04 : ");
+		usedTimeLabel.setBounds(46, 78, 63, 19);
 		frame.getContentPane().add(usedTimeLabel);
 
-		JLabel usingFeeLabel = new JLabel("     사용요금 : ");
-		usingFeeLabel.setBounds(30, 168, 98, 19);
+		JLabel usingFeeLabel = new JLabel("\uC0AC\uC6A9\uC694\uAE08 : ");
+		usingFeeLabel.setBounds(47, 167, 63, 19);
 		frame.getContentPane().add(usingFeeLabel);
 
-		JLabel spareTimeLabel = new JLabel("     남은시간 : ");
-		spareTimeLabel.setBounds(30, 124, 98, 19);
+		JLabel spareTimeLabel = new JLabel("\uB0A8\uC740\uC2DC\uAC04 : ");
+		spareTimeLabel.setBounds(46, 122, 63, 19);
 		frame.getContentPane().add(spareTimeLabel);
 
 		try {
@@ -195,6 +196,10 @@ public class userPay {
 
 			writer.write(userId + '\n');
 			writer.flush();
+			payLabel.setText(userId);
+
+			pcNum = Integer.parseInt(reader.readLine());
+			numberLabel.setText(pcNum + "번 PC");
 
 			threadStart();
 		} catch (IOException e) {
@@ -280,7 +285,6 @@ public class userPay {
 				addMoney += 2000;
 				game4Button.setEnabled(false);
 				g4=1;
-
 			}
 			
 		}
@@ -383,13 +387,15 @@ public class userPay {
 					GeneralSet.print("Read READY");
 					String act = reader.readLine();
 					GeneralSet.print(act);
-					if (act != null && !act.equals("")) {
-						switch (ServerAct.valueOf(act)) {
-						// case EXIT_USE:
-						// GeneralSet.print("EXIT ACT");
-						// frame.dispose();
-						// System.exit(0);
-						// break;
+					if (act != null && !act.equals(""))
+					{
+						switch (ServerAct.valueOf(act))
+						{
+						case SET_PCNUM:
+							GeneralSet.print("SET_PCNUM");
+							pcNum = Integer.parseInt(reader.readLine());
+							numberLabel.setText(pcNum + "번 PC");
+							break;
 						default:
 							break;
 						}

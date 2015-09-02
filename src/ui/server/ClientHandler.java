@@ -8,11 +8,14 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.StringTokenizer;
 
 import javax.swing.JFrame;
 
 import asset.GeneralSet;
 import asset.GeneralSet.ClientAct;
+import ui.client.Food;
+import ui.client.FoodDao;
 import ui.server.FrameAdmin.Server;
 
 public class ClientHandler extends Thread
@@ -77,7 +80,30 @@ public class ClientHandler extends Thread
 
 	public void orderFood(String msg)
 	{
-		receiveMessage(msg);
+		StringTokenizer lineBreakTokens = new StringTokenizer(msg, "\n");
+		StringBuffer popUpMessage = new StringBuffer(String.format("PC %d번에서 ", pcNum));
+		FoodDao foodDao = new FoodDao();
+		Food[] foods = new Food[lineBreakTokens.countTokens()];
+		
+		for (Food food: foods)
+		{
+			String foodName = null;
+			GeneralSet.print("LOOP");
+			StringTokenizer spaceTokens = new StringTokenizer(lineBreakTokens.nextToken(), " ");
+			
+			food = new Food();
+			foodName = spaceTokens.nextToken();
+			popUpMessage.append(String.format("%s, ", foodName));
+			food.setName(foodName);
+			food.setPrice(Integer.parseInt(spaceTokens.nextToken()));
+			food.setCount(1);
+			
+			foodDao.buyFood(food);
+		}
+		
+		popUpMessage.delete(popUpMessage.length() - 2, popUpMessage.length());
+		popUpMessage.append(" 주문했습니다.");
+		receiveMessage(popUpMessage.toString());
 	}
 
 	public void stopThread()
@@ -190,6 +216,21 @@ public class ClientHandler extends Thread
 		@Override
 		public void run()
 		{
+			try
+			{
+				Thread.sleep(500);
+				writer.write(pcNum + "\n");
+				writer.flush();
+			}
+			catch (InterruptedException e)
+			{
+				e.printStackTrace();
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+
 			for (;;)
 			{
 				try

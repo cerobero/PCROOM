@@ -68,8 +68,25 @@ public class FoodDao {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 	}
+	
+	public void buyFood(Food boughtFood)
+	{
+		String sql = "update foods set count=count-? where name=?";
+		
+		try
+		{
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, boughtFood.getCount());
+			pstmt.setString(2, boughtFood.getName());
+			pstmt.executeUpdate();
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
 	public void delete(Food object){
 		String sql = "delete from foods where name=?";
 		try {

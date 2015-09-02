@@ -1,4 +1,4 @@
-package ui.client;
+package ui.server;
 
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -19,7 +19,8 @@ import java.util.List;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-
+import ui.client.Food;
+import ui.client.FoodDao;
 
 import java.awt.FlowLayout;
 import java.awt.BorderLayout;
@@ -70,7 +71,7 @@ public class Foodadmin extends JDialog{
 		String driver = "com.mysql.jdbc.Driver";
 		String db_url = "jdbc:mysql://localhost:3306/product_db";
 		String db_id = "root";
-		String do_pw = "hanbit";
+		String do_pw = "1234";
 		String sql = null;
 		String str;
 		try {
@@ -78,21 +79,21 @@ public class Foodadmin extends JDialog{
 
 			con = DriverManager.getConnection(db_url, db_id, do_pw);
 			stmt = con.createStatement();
-			// ¿©±â±îÁö ÈçÇÑdb¿¬°á 
+			// ì—¬ê¸°ê¹Œì§€ í”í•œdbì—°ê²° 
 			sql = "select name,maker,count,price from foods";
 			rs = stmt.executeQuery(sql);
 			
 			while (rs.next() == true) {
-				// ¹İº¹¹®À¸·Î Ä®·³À» ²¨³¿
+				// ë°˜ë³µë¬¸ìœ¼ë¡œ ì¹¼ëŸ¼ì„ êº¼ëƒ„
 				
-				food = new Food(); //setter , getter·Î ÀÌ·ç¾îÁø Å¬·¡½º
-				food.setName(rs.getString(1));//¸Ş¼Òµå¸¦ »ç¿ëÇØ¼­DB µ¥ÀÌÅÍ°ªµéÀ» GETÇØ¼­ FOOD¿¡ SET ÇØÁÜ
+				food = new Food(); //setter , getterë¡œ ì´ë£¨ì–´ì§„ í´ë˜ìŠ¤
+				food.setName(rs.getString(1));//ë©”ì†Œë“œë¥¼ ì‚¬ìš©í•´ì„œDB ë°ì´í„°ê°’ë“¤ì„ GETí•´ì„œ FOODì— SET í•´ì¤Œ
 				food.setMaker(rs.getString(2));
 				food.setCount(rs.getInt(3));
 				food.setPrice(rs.getInt(4));
-				foodlist.add(food); //¼¼ÆÃÇÏ°í ¸®½ºÆ®¿¡ ÀúÀå!
+				foodlist.add(food); //ì„¸íŒ…í•˜ê³  ë¦¬ìŠ¤íŠ¸ì— ì €ì¥!
 				
-				//DB ´Ù›§À¸´Ï±î ³ª°¥¶§ ¹®´Ü¼ÓÇÏ°í
+				//DB ë‹¤ï¿½ã±ë¦¿æ­ï¿½ ë‚˜ê°ˆë•Œ ë¬¸ë‹¨ì†í•˜ê³ 
 			}
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -133,29 +134,29 @@ public class Foodadmin extends JDialog{
 		setContentPane(panela);
 		panela.setLayout(new BorderLayout(0, 0));
 		
-		JLabel label_2 = new JLabel("À½½Ä°ü¸®");
+		JLabel label_2 = new JLabel("ìŒì‹ê´€ë¦¬");
 		label_2.setHorizontalAlignment(SwingConstants.CENTER);
-		label_2.setFont(new Font("±¼¸²", Font.BOLD, 20));
+		label_2.setFont(new Font("êµ´ë¦¼", Font.BOLD, 20));
 		panela.add(label_2, BorderLayout.NORTH);
 	//	Food food = new Food();
 		
 		
-		addbutton = new JButton("Ãß°¡");
-		addbutton.addActionListener(new AListener()); //¹öÆ° ´©¸£¸é Ãß°¡ ÀÔ·ÂÃ¢ÀÌ¶ä
+		addbutton = new JButton("ì¶”ê°€");
+		addbutton.addActionListener(new AListener()); //ë²„íŠ¼ ëˆ„ë¥´ë©´ ì¶”ê°€ ì…ë ¥ì°½ì´ëœ¸
 		panelb.add(addbutton, BorderLayout.SOUTH);
 		
-		button_d = new JButton("»èÁ¦");
-		button_d.addActionListener(new AListener());//¹öÆ° ´©¸£¸é »èÁ¦ ÀÔ·ÂÃ¢ÀÌ¶ä
+		button_d = new JButton("ì‚­ì œ");
+		button_d.addActionListener(new AListener());//ë²„íŠ¼ ëˆ„ë¥´ë©´ ì‚­ì œ ì…ë ¥ì°½ì´ëœ¸
 		panelb.add(button_d, BorderLayout.SOUTH);
 		
 		
 		txtForintI = new JTextArea();
-		txtForintI.setFont(new Font("±¼¸²", Font.PLAIN, 13));
+		txtForintI.setFont(new Font("êµ´ë¦¼", Font.PLAIN, 13));
 		txtForintI.setEditable(false);
 		txtForintI.setEnabled(false);
 		
-		for(Food f: foodlist){ //¹İº¹¹®À»ÅëÇØ ÅØ½ºÆ® ¿¡¾î¸®¾î¿¡ db¿¡¼­ ²¨³»´ã¾Æ¿Â foodlistÀÇ ³»¿ëµéÀ» ÇÏ³ª¾¿
-			//ºÙ¿©¼­ ÀÌ¾î³ÊÀ½
+		for(Food f: foodlist){ //ë°˜ë³µë¬¸ì„í†µí•´ í…ìŠ¤íŠ¸ ì—ì–´ë¦¬ì–´ì— dbì—ì„œ êº¼ë‚´ë‹´ì•„ì˜¨ foodlistì˜ ë‚´ìš©ë“¤ì„ í•˜ë‚˜ì”©
+			//ë¶™ì—¬ì„œ ì´ì–´ë„ˆìŒ
 			txtForintI.append(f.toString()+"\n");
 		}
 		panelc.setLayout(new BorderLayout(0, 0));
@@ -175,7 +176,7 @@ public class Foodadmin extends JDialog{
 		
 		
 	}
-	private class AListener implements ActionListener{//ÀÔ·Â,»èÁ¦ ¹öÆ° ´©¸£¸é ³ªÅ¸³ª´Â Ã¢µé
+	private class AListener implements ActionListener{//ì…ë ¥,ì‚­ì œ ë²„íŠ¼ ëˆ„ë¥´ë©´ ë‚˜íƒ€ë‚˜ëŠ” ì°½ë“¤
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -187,18 +188,18 @@ public class Foodadmin extends JDialog{
 				count = new JTextField(20);
 				price = new JTextField(20);
 				enter = new JButton("enter");
-				panel.add(new JLabel("Ç°¸í:"));
+				panel.add(new JLabel("í’ˆëª…:"));
 				panel.add(name);
-				panel.add(new JLabel("Á¦Á¶»ç:"));
+				panel.add(new JLabel("ì œì¡°ì‚¬:"));
 				panel.add(maker);
-				panel.add(new JLabel("¼ö·®:"));
+				panel.add(new JLabel("ìˆ˜ëŸ‰:"));
 				panel.add(count);
-				panel.add(new JLabel("°¡°İ:"));
+				panel.add(new JLabel("ê°€ê²©:"));
 				panel.add(price);
 				panel.add(enter);
-				enter.addActionListener(new BListener());//enter ´©¸£¸é ÀÔ·Â¼Ò½ºµéÀÌ ½ÇÇàµÊ
+				enter.addActionListener(new BListener());//enter ëˆ„ë¥´ë©´ ì…ë ¥ì†ŒìŠ¤ë“¤ì´ ì‹¤í–‰ë¨
 				dlog.add(panel);
-				dlog.setTitle("À½½ÄÃß°¡");
+				dlog.setTitle("ìŒì‹ì¶”ê°€");
 				dlog.setLocationRelativeTo(panel);
 				dlog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 				dlog.setSize(300,200);
@@ -214,14 +215,14 @@ public class Foodadmin extends JDialog{
 				dlog = new JDialog();
 				JPanel panel = new JPanel();
 			    name = new JTextField(20);
-				button_d = new JButton("»èÁ¦");
-				button_d.addActionListener(new BListener());//»èÁ¦¹öÆ° ´©¸£¸é »èÁ¦°¡ ½ÇÇàµÊ
-				panel.add(new JLabel("Ç°¸í:"));
+				button_d = new JButton("ì‚­ì œ");
+				button_d.addActionListener(new BListener());//ì‚­ì œë²„íŠ¼ ëˆ„ë¥´ë©´ ì‚­ì œê°€ ì‹¤í–‰ë¨
+				panel.add(new JLabel("í’ˆëª…:"));
 				panel.add(name);
 				
 				panel.add(button_d);
 				dlog.add(panel);
-				dlog.setTitle("À½½Ä»èÁ¦");
+				dlog.setTitle("ìŒì‹ì‚­ì œ");
 				dlog.setLocationRelativeTo(panel);
 				dlog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 				dlog.setSize(300,100);
@@ -230,7 +231,7 @@ public class Foodadmin extends JDialog{
 		}
 		
 	}
-	private class BListener implements ActionListener{//ÀÔ·Â¹öÆ°°ú »èÁ¦¹öÆ°ÀÇ ±â´É±¸Çö
+	private class BListener implements ActionListener{//ì…ë ¥ë²„íŠ¼ê³¼ ì‚­ì œë²„íŠ¼ì˜ ê¸°ëŠ¥êµ¬í˜„
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -242,9 +243,9 @@ public class Foodadmin extends JDialog{
 				
 				dao.insert(food);
 				JOptionPane joption =  new JOptionPane();
-				joption.showMessageDialog(panela, "ÀÔ·Â¼º°ø");
-				txtForintI.setText("");//´Ù½ÃÇÑ¹ø ºñ¿ì°í
-				foodlist = dao.showList();//´Ù½Ã¾²±â ±ÍÂú¾Æ¼­ db¿¡ÀÖ´Â³»¿ë ²¨³»¿À´ÂÀÛ¾÷À» dao¿¡ ³Ê¾î¹ö·ÈÀ½.
+				joption.showMessageDialog(panela, "ì…ë ¥ì„±ê³µ");
+				txtForintI.setText("");//ë‹¤ì‹œí•œë²ˆ ë¹„ìš°ê³ 
+				foodlist = dao.showList();//ë‹¤ì‹œì“°ê¸° ê·€ì°®ì•„ì„œ dbì—ìˆëŠ”ë‚´ìš© êº¼ë‚´ì˜¤ëŠ”ì‘ì—…ì„ daoì— ë„ˆì–´ë²„ë ¸ìŒ.
 				for(Food f: foodlist){
 					//System.out.println(f.toString());
 					txtForintI.append(f.toString()+"\n");
@@ -256,7 +257,7 @@ public class Foodadmin extends JDialog{
 				food.setName(name.getText());
 				dao.delete(food);
 				JOptionPane joption =  new JOptionPane();
-				joption.showMessageDialog(panela, "»èÁ¦¼º°ø");
+				joption.showMessageDialog(panela, "ì‚­ì œì„±ê³µ");
 				txtForintI.setText("");
 				foodlist = dao.showList();
 				for(Food f: foodlist){

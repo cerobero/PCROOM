@@ -21,14 +21,14 @@ public class PanelUserInform extends JPanel
 {
 	private int pcNum;
 	private String userID;
-	private String userRate;
+//	private String userRate;
 	private Time useTime;
 	private String playedGame;
 	
 	private JPanel contentPane;
 	private JLabel pcNumLabel;
 	private JLabel userIDLabel;
-	private JLabel userRateLabel;
+//	private JLabel userRateLabel;
 	private JLabel userTimeLabel;
 	private JLabel playedGameLabel;
 	private JButton button;
@@ -57,9 +57,9 @@ public class PanelUserInform extends JPanel
 		userIDLabel.setFont(new Font("∏º¿∫ ∞ÌµÒ", Font.PLAIN, 12));
 		contentPane.add(userIDLabel);
 		
-		userRateLabel = new JLabel();
-		userRateLabel.setFont(new Font("∏º¿∫ ∞ÌµÒ", Font.PLAIN, 12));
-		contentPane.add(userRateLabel);
+//		userRateLabel = new JLabel();
+//		userRateLabel.setFont(new Font("∏º¿∫ ∞ÌµÒ", Font.PLAIN, 12));
+//		contentPane.add(userRateLabel);
 		
 		userTimeLabel = new JLabel();
 		userTimeLabel.setFont(new Font("∏º¿∫ ∞ÌµÒ", Font.PLAIN, 12));
@@ -95,7 +95,7 @@ public class PanelUserInform extends JPanel
 	{
 		pcNumLabel.setText("Pc No. " + pcNum);
 		userIDLabel.setText("ID : " + userID);
-		userRateLabel.setText("µÓ±ﬁ : " + userRate);
+//		userRateLabel.setText("µÓ±ﬁ : " + userRate);
 		userTimeLabel.setText("ªÁøÎΩ√∞£ : " + useTime);
 		playedGameLabel.setText("Ω««‡¡ﬂ¿Œ ∞‘¿” : " + playedGame);
 	}
@@ -104,7 +104,7 @@ public class PanelUserInform extends JPanel
 	{
 		pcNum = 0;
 		userID = null;
-		userRate = null;
+//		userRate = null;
 		useTime = null;
 		playedGame = null;
 		
@@ -131,15 +131,15 @@ public class PanelUserInform extends JPanel
 		this.userID = userID;
 	}
 
-	public String getUserRate()
-	{
-		return userRate;
-	}
+//	public String getUserRate()
+//	{
+//		return userRate;
+//	}
 
-	public void setUserRate(String userRate)
-	{
-		this.userRate = userRate;
-	}
+//	public void setUserRate(String userRate)
+//	{
+//		this.userRate = userRate;
+//	}
 
 	public Time getUseTime()
 	{
