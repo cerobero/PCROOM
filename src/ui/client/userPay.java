@@ -15,7 +15,6 @@ import java.net.SocketException;
 import java.util.Calendar;
 import java.util.Date;
 
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -25,7 +24,8 @@ import javax.swing.JTextField;
 import asset.GeneralSet;
 import asset.GeneralSet.ServerAct;
 
-public class userPay implements Runnable {
+//public class userPay implements Runnable {
+public class userPay {
 
 	JFrame frame;
 	private JTextField spareTimeText;
@@ -41,50 +41,57 @@ public class userPay implements Runnable {
 	private BufferedWriter writer;
 
 	private String userId;
-	
-    private JButton game1Button;
-    private JButton game2Button;
-    private JButton game3Button;
-    private JButton game4Button;
-    ////////////////////////////////////////
-    private Date startDate = null;// 사용시간 계산
-    public long intervalMilli;
-    
-    private String useMoney = "0"; // 사용요금
-    public long useTime = 0; // 사용요금 계산
-    public double secMoney = 1000.0 / (60 * 60); // 초당 요금
-    public int addMoney = 0; // 게임버튼으로 추가되는 금액
-    
-    public boolean a=true; //일시정지
-    public int b=0; //일시정지,다시시작
 
+	private JButton game1Button;
+	private JButton game2Button;
+	private JButton game3Button;
+	private JButton game4Button;
+	////////////////////////////////////////
+	private Date startDate = null;// 사용시간 계산
+	public long intervalMilli; //사용시간,남은시간 계산
+
+	private String useMoney = "0"; // 사용요금
+	public long useTime = 0; // 사용요금 계산
+	public double secMoney = 1000.0 / (60 * 60); // 초당 요금
+	public int addMoney = 0; // 게임버튼으로 추가되는 금액
+
+	public boolean start = true; // 일시정지
+	public int stopRestart = 0; // 버튼 : 일시정지<->다시시작
+	
+	public int g1=0; //일시정지 후에도 눌렸던 버튼 눌려있게
+	public int g2=0;
+	public int g3=0;
+	public int g4=0;
+	
+	public Date stopDate =null; //일시정지,다시시작 후 사용시간
+	public Date restartDate = null;
+	long reDiff=0;
 
 	/**
 	 * Launch the application.
 	 */
-	//	public static void main(String[] args) {
-	//		EventQueue.invokeLater(new Runnable() {
-	//			public void run() {
-	//				try {
-	//					userPay window = new userPay();
-	//					// window.frame.setVisible(true);
-	//				} catch (Exception e) {
-	//					e.printStackTrace();
-	//				}
-	//			}
-	//		});
-	//	}
+	// public static void main(String[] args) {
+	// EventQueue.invokeLater(new Runnable() {
+	// public void run() {
+	// try {
+	// userPay window = new userPay();
+	// // window.frame.setVisible(true);
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// }
+	// }
+	// });
+	// }
 
 	/**
 	 * Create the application.
 	 */
-    public userPay(String userId, Date startDate) {
-        this. userId = userId;
-        this. startDate = startDate; // 시간계산
+	public userPay(String userId, Date startDate) {
+		this.userId = userId;
+		this.startDate = startDate; // 시간계산
 
-       initialize();
- }
-
+		initialize();
+	}
 
 	/**
 	 * Initialize the contents of the frame.
@@ -96,8 +103,8 @@ public class userPay implements Runnable {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		frame.setVisible(true);
-		
-		//위치정중앙
+
+		// 위치정중앙
 		frame.setLocationRelativeTo(null);
 
 		JPanel panel = new JPanel();
@@ -105,9 +112,9 @@ public class userPay implements Runnable {
 		frame.getContentPane().add(panel);
 
 		numberLabel = new JLabel("     번호");
-		numberLabel .setFont(new Font("굴림", Font.PLAIN, 19));
-		numberLabel .setBounds(27, 20, 72, 35);
-		frame.getContentPane().add(numberLabel );
+		numberLabel.setFont(new Font("굴림", Font.PLAIN, 19));
+		numberLabel.setBounds(27, 20, 72, 35);
+		frame.getContentPane().add(numberLabel);
 
 		payLabel = new JLabel("      사용자 선후불");
 		payLabel.setFont(new Font("굴림", Font.PLAIN, 19));
@@ -130,13 +137,12 @@ public class userPay implements Runnable {
 		game4Button.setBounds(319, 166, 103, 23);
 		frame.getContentPane().add(game4Button);
 
-		 Mylistener li = new Mylistener();
-         game1Button.addActionListener( li);
-         game2Button.addActionListener( li);
-         game3Button.addActionListener( li);
-         game4Button.addActionListener( li);
+		Mylistener li = new Mylistener();
+		game1Button.addActionListener(li);
+		game2Button.addActionListener(li);
+		game3Button.addActionListener(li);
+		game4Button.addActionListener(li);
 
-		
 		orderButton = new JButton("음식 주문");
 		orderButton.setBounds(319, 212, 103, 23);
 		frame.getContentPane().add(orderButton);
@@ -146,11 +152,10 @@ public class userPay implements Runnable {
 		adminCall.setBounds(176, 212, 103, 23);
 		frame.getContentPane().add(adminCall);
 		adminCall.addActionListener(li);
-		
+
 		pauseButton = new JButton("일시 정지");
 		pauseButton.setBounds(30, 212, 97, 23);
 		frame.getContentPane().add(pauseButton);
-		// 일시정지 이벤트
 		pauseButton.addActionListener(li);
 
 		spareTimeText = new JTextField();
@@ -183,8 +188,7 @@ public class userPay implements Runnable {
 		spareTimeLabel.setBounds(30, 124, 98, 19);
 		frame.getContentPane().add(spareTimeLabel);
 
-		try
-		{
+		try {
 			Socket socket = new Socket(InetAddress.getByName("localhost"), 9999);
 			reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
@@ -193,201 +197,212 @@ public class userPay implements Runnable {
 			writer.flush();
 
 			threadStart();
-		}
-		catch (IOException e)
-		{
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
+		TimeThread tt = new TimeThread();
+		tt.start();//사용시간 계산
+
 	}
 
-	public void threadStart()
-	{
+	public void threadStart() {
 		ReadThread rt = new ReadThread();
 
 		rt.start();
 	}
+
 	///////////////////////////////////////////////////////////////////////////////////////
-	  class Mylistener implements ActionListener {
-          int a=0;
-          @Override
-          public void actionPerformed(ActionEvent e) {
-               
-                if ( e.getSource() == orderButton) {
-                      new Foodorder( writer);
-               } else if ( e.getSource() == adminCall) {
-                      new Manager_Call( writer);
-               } else if ( e.getSource() == pauseButton) {
-                      if( b==0){   
-                           stopTime();
-                            numberLabel.setText( "");
-                            payLabel.setText( "일시정지");
-                            pauseButton.setText( "다시시작");
-                            game1Button.setEnabled( false);
-                            game2Button.setEnabled( false);
-                            game3Button.setEnabled( false);
-                            game4Button.setEnabled( false);
-                            orderButton.setEnabled( false);
-                            adminCall.setEnabled( false);
-                            b=1;
-                      //////////////////////////////////////////////////////
-                     } else if( b==1){
-                           restartTime();
-                            //restart가 안돼~~~~~~
-                            numberLabel.setText( "번호");
-                            payLabel.setText( "사용자선후불" );
-                            pauseButton.setText( "일시정지");
-                            game1Button.setEnabled( true);
-                            game2Button.setEnabled( true);
-                            game3Button.setEnabled( true);
-                            game4Button.setEnabled( true);
-                            orderButton.setEnabled( true);
-                            adminCall.setEnabled( true);
-                            b=0;
-                     }
-               } else if ( e.getSource() == game1Button) {
-                            addMoney += 500;
-                            game1Button.setEnabled( false);
-                           
-               } else if ( e.getSource() == game2Button) {
-                            addMoney += 1000;
-                            game2Button.setEnabled( false);
-               
-               } else if ( e.getSource() == game3Button) {
-                            addMoney += 1500;
-                            game3Button.setEnabled( false);
-               
-               } else if ( e.getSource() == game4Button) {
-                            addMoney += 2000;
-                            game4Button.setEnabled( false);
-               
-               }
-               
-         }
-
-   }
-
-   ///////////////////////////////////////////////////////////////////////////////
-   // 사용시간을 계산하는 메소드
-   private String useTime(Date udate) {
-         Calendar c2 = Calendar. getInstance();
-
-          c2.setTimeInMillis(System. currentTimeMillis());
-
-          intervalMilli = ( c2.getTimeInMillis() - udate.getTime());
-          useTime = intervalMilli/ 1000; // 사용요금 계산
-
-          long minute = 60;
-          long hour = minute * 60;
-
-          int useHour = ( int) ( useTime / hour);
-          int useMinute = ( int) (( useTime % hour) / minute);
-          int useSecond = ( int) (( useTime % hour) % minute);
-
-         String tmp = ( useHour < 10) ? "0" + useHour : useHour + "";
-          tmp += ":";
-          tmp += ( useMinute < 10) ? "0" + useMinute : useMinute + "";
-          tmp += ":";
-          tmp += ( useSecond < 10) ? "0" + useSecond : useSecond + "";
-          return tmp;
-   }
-   
-   private String spareTime(){
-         Calendar c3 = Calendar. getInstance();
-         
-          c3.setTimeInMillis(60*60*1000);
-          long differ=( c3.getTimeInMillis()- intervalMilli)/1000;
-         
-          long minute = 60;
-          long hour = minute * 60;
-
-          int useHour = ( int) ( differ / hour);
-          int useMinute = ( int) (( differ % hour) / minute);
-          int useSecond = ( int) (( differ % hour) % minute);
-
-         String tmp = ( useHour < 10) ? "0" + useHour : useHour + "";
-          tmp += ":";
-          tmp += ( useMinute < 10) ? "0" + useMinute : useMinute + "";
-          tmp += ":";
-          tmp += ( useSecond < 10) ? "0" + useSecond : useSecond + "";
-          return tmp;
-         
-   }
-
-   public void addMoney() {
-
-          int useMoney = ( int) ( useTime * secMoney) + addMoney;
-          this. useMoney = useMoney + ""; // 요금 String으로 저장
-   }
-
-   public void stopTime(){
-          a= false;
-   }
-   ///////////////////////////////////////////////////////
-   public void restartTime(){
-          a= true;
-   }
-   ///////////////////////////////////////////////////////
-   @Override
-   public void run() {
-         
-          while ( a) {
-               
-               addMoney();
-                usedTimeText.setText(useTime( startDate));
-                spareTimeText.setText(spareTime());
-                usingFeeText.setText( useMoney + "원");
-                try {
-                     Thread. sleep(100);
-               } catch (Exception e) {
-                      e.printStackTrace();
-               }
-         }
-         
-         
-
-   }
-
-
-	private class ReadThread extends Thread
-	{
+	class Mylistener implements ActionListener {
 		@Override
-		public void run()
-		{
-			for (;;)
-			{
-				try
-				{
+		public void actionPerformed(ActionEvent e) {
+
+			if (e.getSource() == orderButton) {
+				new Foodorder(writer);
+			} else if (e.getSource() == adminCall) {
+				new Manager_Call(writer);
+			} else if (e.getSource() == pauseButton) {
+				if (stopRestart == 0) {
+					stopTime();
+					
+					numberLabel.setText("");
+					payLabel.setText("일시정지");
+					pauseButton.setText("다시시작");
+					game1Button.setEnabled(false);
+					game2Button.setEnabled(false);
+					game3Button.setEnabled(false);
+					game4Button.setEnabled(false);
+					orderButton.setEnabled(false);
+					adminCall.setEnabled(false);
+					
+					stopRestart = 1;
+					//////////////////////////////////////////////////////
+				} else if (stopRestart == 1) {
+					restartTime();
+
+					numberLabel.setText("번호");
+					payLabel.setText("사용자선후불");
+					pauseButton.setText("일시정지");
+					if(g1==0){
+					game1Button.setEnabled(true);
+					}
+					if(g2==0){
+					game2Button.setEnabled(true);
+					}
+					if(g3==0){
+					game3Button.setEnabled(true);
+					}
+					if(g4==0){
+					game4Button.setEnabled(true);
+					}	
+					orderButton.setEnabled(true);
+					adminCall.setEnabled(true);
+				
+					stopRestart = 0;
+				}
+			} else if (e.getSource() == game1Button) {
+				addMoney += 500;
+				game1Button.setEnabled(false);
+				g1=1;
+
+			} else if (e.getSource() == game2Button) {
+				addMoney += 1000;
+				game2Button.setEnabled(false);
+				g2=1;
+
+			} else if (e.getSource() == game3Button) {
+				addMoney += 1500;
+				game3Button.setEnabled(false);
+				g3=1;
+				
+
+			} else if (e.getSource() == game4Button) {
+				addMoney += 2000;
+				game4Button.setEnabled(false);
+				g4=1;
+
+			}
+			
+		}
+		
+	}
+
+	///////////////////////////////////////////////////////////////////////////////
+	// 사용시간을 계산하는 메소드
+	private String useTime(Date udate) {
+		Calendar nowTime = Calendar.getInstance();
+		nowTime.setTimeInMillis(System.currentTimeMillis());
+		
+		
+		intervalMilli = (nowTime.getTimeInMillis() - udate.getTime())-reDiff; 
+
+		useTime = intervalMilli / 1000; // 사용요금 계산
+
+		long minute = 60;
+		long hour = minute * 60;
+
+		int useHour = (int) (useTime / hour);
+		int useMinute = (int) ((useTime % hour) / minute);
+		int useSecond = (int) ((useTime % hour) % minute);
+
+		String tmp = (useHour < 10) ? "0" + useHour : useHour + "";
+		tmp += ":";
+		tmp += (useMinute < 10) ? "0" + useMinute : useMinute + "";
+		tmp += ":";
+		tmp += (useSecond < 10) ? "0" + useSecond : useSecond + "";
+		return tmp;
+	}
+
+	private String spareTime() {
+		Calendar oneHour = Calendar.getInstance();
+		oneHour.setTimeInMillis(60 * 60 * 1000);
+		
+		long differ = (oneHour.getTimeInMillis() - intervalMilli) / 1000;
+
+		long minute = 60;
+		long hour = minute * 60;
+
+		int useHour = (int) (differ / hour);
+		int useMinute = (int) ((differ % hour) / minute);
+		int useSecond = (int) ((differ % hour) % minute);
+
+		String tmp = (useHour < 10) ? "0" + useHour : useHour + "";
+		tmp += ":";
+		tmp += (useMinute < 10) ? "0" + useMinute : useMinute + "";
+		tmp += ":";
+		tmp += (useSecond < 10) ? "0" + useSecond : useSecond + "";
+		return tmp;
+
+	}
+
+	public void addMoney() {
+
+		int useMoney = (int) (useTime * secMoney) + addMoney;
+		this.useMoney = useMoney + ""; // 요금 String으로 저장
+	}
+
+	public void stopTime() {
+		start = false;
+		stopDate= new Date();
+	}
+
+	public void restartTime() {
+		start = true;
+		restartDate= new Date();
+		reDiff += restartDate.getTime()-stopDate.getTime();
+		
+		TimeThread tt2 = new TimeThread();
+		tt2.start();
+
+	}
+
+	private class TimeThread extends Thread {
+		@Override
+		public void run() {
+			while (start) {
+
+				addMoney();
+				usedTimeText.setText(useTime(startDate));
+				spareTimeText.setText(spareTime());
+				usingFeeText.setText(useMoney + "원");
+
+				try {
+					Thread.sleep(100);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+	private class ReadThread extends Thread {
+		@Override
+		public void run() {
+			for (;;) {
+				try {
 					GeneralSet.print("Read READY");
 					String act = reader.readLine();
 					GeneralSet.print(act);
-					if (act != null && !act.equals(""))
-					{
-						switch (ServerAct.valueOf(act))
-						{
-//						case EXIT_USE:
-//							GeneralSet.print("EXIT ACT");
-//							frame.dispose();
-//							System.exit(0);
-//							break;
+					if (act != null && !act.equals("")) {
+						switch (ServerAct.valueOf(act)) {
+						// case EXIT_USE:
+						// GeneralSet.print("EXIT ACT");
+						// frame.dispose();
+						// System.exit(0);
+						// break;
 						default:
 							break;
 						}
-					}
-					else if (act == null)
-					{
+					} else if (act == null) {
 						frame.dispose();
 						System.exit(0);
 						return;
 					}
-				}
-				catch (SocketException e)
-				{
+				} catch (SocketException e) {
 					frame.dispose();
 					System.exit(0);
 					return;
-				}
-				catch (IOException e)
-				{
+				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}

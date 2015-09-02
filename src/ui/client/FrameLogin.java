@@ -110,9 +110,6 @@ public class FrameLogin extends JFrame {
 				findId=dao.select(textfield_id.getText());
 
 				if(findId !=null){
-					//	GeneralSet.print(findId.getUserId());
-					//	GeneralSet.print(findId.getPassword());
-					//	GeneralSet.print(textfield_pw.getText());
 					if(findId.getPassword().equals(textfield_pw.getText())){
 						GeneralSet.print("로그인 성공!");
 						userId = textfield_id.getText();
@@ -120,8 +117,6 @@ public class FrameLogin extends JFrame {
 						textfield_pw.setText("");
 
 						userPay userpay = new userPay(userId, new Date());
-                        Thread tui = new Thread(userpay);
-                        tui.start();
                         dao.exit();
                         dispose();
 
