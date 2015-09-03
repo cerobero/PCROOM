@@ -28,6 +28,8 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import asset.GeneralSet;
+
 public class FrameAdmin extends JFrame
 {
 
@@ -313,6 +315,9 @@ public class FrameAdmin extends JFrame
 //			GeneralSet.print((thread.getPcNum() - 1) + "");
 			userManagePanes[pcNum - 1].setPcNum(pcNum);
 			userManagePanes[pcNum - 1].setUserID(thread.getUserId());
+			userManagePanes[pcNum - 1].setUseTime(thread.getUseTime());
+			userManagePanes[pcNum - 1].setUserCharge(thread.getUsingFee() + "");
+			userManagePanes[pcNum - 1].setPlayedGame(thread.getPlayedGame());
 			userManagePanes[pcNum - 1].refresh();
 //			userManagePanes.get(thread.getPcNum() - 1).setPcNum(thread.getPcNum());
 //			userManagePanes.get(thread.getPcNum() - 1).refresh();

@@ -28,6 +28,10 @@ public class ClientHandler extends Thread
 
 	private int pcNum;
 	private String userId;
+	private String useTime;
+	private String spareTime;
+	private int usingFee;
+	private String playedGame;
 
 	private ReadThread rt;
 	private WriteThread wt; 
@@ -38,6 +42,10 @@ public class ClientHandler extends Thread
 		this.socket = socket;
 		this.frame = frame;
 		this.pcNum = pcNum;
+		this.useTime = "00:00:00";
+		this.spareTime = "00:00:00";
+		this.usingFee = 0;
+		this.playedGame = "없음";
 
 		try
 		{
@@ -105,6 +113,19 @@ public class ClientHandler extends Thread
 		popUpMessage.append(" 주문했습니다.");
 		receiveMessage(popUpMessage.toString());
 	}
+	
+	public void receiveTime(String msg)
+	{
+//		useTime = msg.replaceAll("\n", "");
+		StringTokenizer lineBreakTokens = new StringTokenizer(msg, "\n");
+		
+		if (lineBreakTokens.hasMoreTokens() && lineBreakTokens.countTokens() == 2)
+		{
+			GeneralSet.print("IF TRUE");
+			useTime = lineBreakTokens.nextToken();
+			usingFee = Integer.parseInt(lineBreakTokens.nextToken());
+		}
+	}
 
 	public void stopThread()
 	{
@@ -164,6 +185,12 @@ public class ClientHandler extends Thread
 							break;
 						case ORDER_FOOD:
 							orderFood(msg);
+							break;
+						case SEND_TIME:
+							receiveTime(msg);
+							break;
+						case PLAY_GAME:
+							playedGame = msg.replaceAll("\n", "");
 							break;
 						default:
 							GeneralSet.print("ReadThread:구현되지 않은 Client 동작");
@@ -238,7 +265,7 @@ public class ClientHandler extends Thread
 					//					writer.write("string");
 					//					writer.flush();
 					server.panelUpdate(handler);
-					Thread.sleep(1000 * 60);
+					Thread.sleep(1000);
 				}
 				//				catch (SocketException e)
 				//				{
@@ -305,5 +332,25 @@ public class ClientHandler extends Thread
 	public String getUserId()
 	{
 		return userId;
+	}
+
+	public String getUseTime()
+	{
+		return useTime;
+	}
+
+	public String getSpareTime()
+	{
+		return spareTime;
+	}
+
+	public int getUsingFee()
+	{
+		return usingFee;
+	}
+
+	public String getPlayedGame()
+	{
+		return playedGame;
 	}
 }

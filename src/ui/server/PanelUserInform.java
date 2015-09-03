@@ -22,13 +22,15 @@ public class PanelUserInform extends JPanel
 	private int pcNum;
 	private String userID;
 //	private String userRate;
-	private Time useTime;
+	private String userCharge;
+	private String useTime;
 	private String playedGame;
 	
 	private JPanel contentPane;
 	private JLabel pcNumLabel;
 	private JLabel userIDLabel;
 //	private JLabel userRateLabel;
+	private JLabel userChargeLabel;
 	private JLabel userTimeLabel;
 	private JLabel playedGameLabel;
 	private JButton button;
@@ -61,6 +63,10 @@ public class PanelUserInform extends JPanel
 //		userRateLabel.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
 //		contentPane.add(userRateLabel);
 		
+		userChargeLabel = new JLabel();
+		userChargeLabel.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
+		contentPane.add(userChargeLabel);
+		
 		userTimeLabel = new JLabel();
 		userTimeLabel.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
 		contentPane.add(userTimeLabel);
@@ -88,6 +94,7 @@ public class PanelUserInform extends JPanel
 		
 		add(contentPane);
 		
+		reset();
 		refresh();
 	}
 	
@@ -96,17 +103,20 @@ public class PanelUserInform extends JPanel
 		pcNumLabel.setText("Pc No. " + pcNum);
 		userIDLabel.setText("ID : " + userID);
 //		userRateLabel.setText("등급 : " + userRate);
+		userChargeLabel.setText("사용요금 : " + userCharge + "원");
 		userTimeLabel.setText("사용시간 : " + useTime);
 		playedGameLabel.setText("실행중인 게임 : " + playedGame);
 	}
 	
+	@SuppressWarnings("deprecation")
 	public void reset()
 	{
 		pcNum = 0;
 		userID = null;
 //		userRate = null;
-		useTime = null;
-		playedGame = null;
+		userCharge = "0";
+		useTime = "00:00:00";
+		playedGame = "없음";
 		
 		refresh();
 	}
@@ -141,12 +151,22 @@ public class PanelUserInform extends JPanel
 //		this.userRate = userRate;
 //	}
 
-	public Time getUseTime()
+	public String getUserCharge()
+	{
+		return userCharge;
+	}
+
+	public void setUserCharge(String userCharge)
+	{
+		this.userCharge = userCharge;
+	}
+
+	public String getUseTime()
 	{
 		return useTime;
 	}
 
-	public void setUseTime(Time useTime)
+	public void setUseTime(String useTime)
 	{
 		this.useTime = useTime;
 	}

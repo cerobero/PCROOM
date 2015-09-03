@@ -269,22 +269,77 @@ public class userPay {
 				addMoney += 500;
 				game1Button.setEnabled(false);
 				g1=1;
+				
+				try
+				{
+					writer.write(GeneralSet.ClientAct.PLAY_GAME.name() + '\n');
+					writer.flush();
+					writer.write("1\n");
+					writer.flush();
+					writer.write("게임1\n");
+					writer.flush();
+				}
+				catch (IOException e1)
+				{
+					e1.printStackTrace();
+				}
 
 			} else if (e.getSource() == game2Button) {
 				addMoney += 1000;
 				game2Button.setEnabled(false);
 				g2=1;
+				
+				try
+				{
+					writer.write(GeneralSet.ClientAct.PLAY_GAME.name() + '\n');
+					writer.flush();
+					writer.write("1\n");
+					writer.flush();
+					writer.write("게임2\n");
+					writer.flush();
+				}
+				catch (IOException e1)
+				{
+					e1.printStackTrace();
+				}
 
 			} else if (e.getSource() == game3Button) {
 				addMoney += 1500;
 				game3Button.setEnabled(false);
 				g3=1;
 				
+				try
+				{
+					writer.write(GeneralSet.ClientAct.PLAY_GAME.name() + '\n');
+					writer.flush();
+					writer.write("1\n");
+					writer.flush();
+					writer.write("게임3\n");
+					writer.flush();
+				}
+				catch (IOException e1)
+				{
+					e1.printStackTrace();
+				}
 
 			} else if (e.getSource() == game4Button) {
 				addMoney += 2000;
 				game4Button.setEnabled(false);
 				g4=1;
+				
+				try
+				{
+					writer.write(GeneralSet.ClientAct.PLAY_GAME.name() + '\n');
+					writer.flush();
+					writer.write("1\n");
+					writer.flush();
+					writer.write("게임4\n");
+					writer.flush();
+				}
+				catch (IOException e1)
+				{
+					e1.printStackTrace();
+				}
 			}
 			
 		}
@@ -361,6 +416,8 @@ public class userPay {
 	}
 
 	private class TimeThread extends Thread {
+		private int sec = 0;
+		
 		@Override
 		public void run() {
 			while (start) {
@@ -369,9 +426,33 @@ public class userPay {
 				usedTimeText.setText(useTime(startDate));
 				spareTimeText.setText(spareTime());
 				usingFeeText.setText(useMoney + "원");
+				
+//				if (sec >= 5)
+//				{
+					try
+					{
+						writer.write(GeneralSet.ClientAct.SEND_TIME.name() + '\n');
+						writer.flush();
+						writer.write("2\n");
+						writer.flush();
+						writer.write(useTime(startDate) + '\n');
+						writer.flush();
+						writer.write(useMoney + '\n');
+						writer.flush();
+					}
+					catch (SocketException e)
+					{
+						e.printStackTrace();
+					}
+					catch (IOException e)
+					{
+						e.printStackTrace();
+					}
+//				}
 
 				try {
-					Thread.sleep(100);
+					Thread.sleep(1000);
+					sec++;
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
