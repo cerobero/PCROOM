@@ -1,7 +1,5 @@
 package dao;
 
-import java.sql.Date;
-
 public class Join {
 	private String userId;
 	private String password;
@@ -56,7 +54,7 @@ public class Join {
 	}
 	
 	public String toString() {
-		return ""+getUserId()+"\t  "+getPassword()+"\t  "+getCellPhone()+"\t"+getBirth();
+		return ""+getUserId()+"\t  "+getCellPhone()+"\t"+getBirth();
 	}
 
 }

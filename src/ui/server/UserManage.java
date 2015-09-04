@@ -74,7 +74,7 @@ public class UserManage extends JDialog{
 		String driver = "com.mysql.jdbc.Driver";
 		String db_url = "jdbc:mysql://localhost:3306/join_db";
 		String db_id = "root";
-		String do_pw = "hanbit";
+		String do_pw = "1234";
 		String sql = null;
 		try {
 			Class.forName(driver);
@@ -154,8 +154,7 @@ public class UserManage extends JDialog{
 		txtForintI.setFont(new Font("굴림", Font.PLAIN, 13));
 		txtForintI.setEditable(false);
 		//		txtForintI.setEnabled(false);
-		txtForintI.append("ID\tPassword\t전화번호\t생년월일\n");
-		txtForintI.append("==============================================\n");
+		txtForintI.append("ID\t전화번호\t생년월일\n");
 
 		for(Join f: joinList){ //반복문을통해 텍스트 에어리어에 db에서 꺼내담아온 foodlist의 내용들을 하나씩
 			//붙여서 이어너음
@@ -254,8 +253,7 @@ public class UserManage extends JDialog{
 				joinDao.insert(join);
 				JOptionPane.showMessageDialog(panela, "입력성공");
 				txtForintI.setText("");//다시한번 비우고
-				txtForintI.append("ID\tPassword\t전화번호\t생년월일\n");
-				txtForintI.append("==============================================\n");
+				txtForintI.append("ID\t전화번호\t생년월일\n");
 				joinList = joinDao.selectList();//다시쓰기 귀찮아서 db에있는내용 꺼내오는작업을 dao에 너어버렸음.
 				for(Join f: joinList){
 					txtForintI.append(f.toString()+"\n");
@@ -268,8 +266,7 @@ public class UserManage extends JDialog{
 				joinDao.delete(join.getUserId());
 				JOptionPane.showMessageDialog(panela, "삭제성공");
 				txtForintI.setText("");
-				txtForintI.append("ID\tPassword\t전화번호\t생년월일\n");
-				txtForintI.append("==============================================\n");
+				txtForintI.append("ID\t전화번호\t생년월일\n");
 				joinList = joinDao.selectList();
 				for(Join f: joinList){
 					txtForintI.append(f.toString()+"\n");

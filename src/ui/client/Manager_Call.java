@@ -8,8 +8,6 @@ import java.awt.Label;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
@@ -19,6 +17,7 @@ import javax.swing.JPanel;
 
 import asset.GeneralSet.ClientAct;
 
+@SuppressWarnings("serial")
 public class Manager_Call extends JDialog {
 	private String msg = "전송 메시지";
 	private TextField call_Message = new TextField(msg, 35);

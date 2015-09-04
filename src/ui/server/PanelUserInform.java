@@ -6,7 +6,6 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Time;
 import java.util.Map;
 
 import javax.swing.JButton;
@@ -17,6 +16,7 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+@SuppressWarnings("serial")
 public class PanelUserInform extends JPanel
 {
 	private int pcNum;
@@ -108,7 +108,6 @@ public class PanelUserInform extends JPanel
 		playedGameLabel.setText("실행중인 게임 : " + playedGame);
 	}
 	
-	@SuppressWarnings("deprecation")
 	public void reset()
 	{
 		pcNum = 0;

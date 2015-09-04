@@ -36,6 +36,7 @@ public class userPay {
 	private JLabel numberLabel;
 	private JLabel payLabel;
 
+	private Socket socket;
 	private BufferedReader reader;
 	private BufferedWriter writer;
 
@@ -190,7 +191,7 @@ public class userPay {
 		frame.getContentPane().add(spareTimeLabel);
 
 		try {
-			Socket socket = new Socket(InetAddress.getByName("localhost"), 9999);
+			socket = new Socket(InetAddress.getByName("localhost"), 9999);
 			reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 
@@ -416,8 +417,6 @@ public class userPay {
 	}
 
 	private class TimeThread extends Thread {
-		private int sec = 0;
-		
 		@Override
 		public void run() {
 			while (start) {
@@ -452,7 +451,6 @@ public class userPay {
 
 				try {
 					Thread.sleep(1000);
-					sec++;
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

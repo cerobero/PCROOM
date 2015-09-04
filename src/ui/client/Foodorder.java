@@ -5,7 +5,6 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -28,6 +27,7 @@ import javax.swing.JTextArea;
 import asset.GeneralSet;
 import asset.GeneralSet.ClientAct;
 
+@SuppressWarnings("serial")
 public class Foodorder extends JDialog implements ActionListener {
 	Connection con = null;
 	Statement stmt = null;
@@ -42,7 +42,7 @@ public class Foodorder extends JDialog implements ActionListener {
 	JPanel panel;
 	JTextArea dlabel;
 	StringBuffer sb = new StringBuffer();
-	private BufferedReader br;
+//	private BufferedReader br;
 	private BufferedWriter bw;
 
 	// private JCheckBox noodle,welch,mandoo;
@@ -59,7 +59,6 @@ public class Foodorder extends JDialog implements ActionListener {
 		String db_id = GeneralSet.FOOD_DB_ID;
 		String do_pw = GeneralSet.FOOD_DB_PW;
 		String sql = null;
-		String str;
 
 		//			Socket socket = new Socket(InetAddress.getByName("localhost"), 9999);
 		bw = writer;

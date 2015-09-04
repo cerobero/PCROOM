@@ -8,6 +8,7 @@ import javax.swing.*;
 
 import asset.GeneralSet;
 
+@SuppressWarnings("serial")
 public class LoginAdmin extends JFrame {
 	private JTextField textfield_id;
 	private JTextField textfield_pw;

@@ -28,6 +28,7 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+@SuppressWarnings("serial")
 public class FrameAdmin extends JFrame
 {
 
@@ -236,13 +237,13 @@ public class FrameAdmin extends JFrame
 			{
 				cal = Calendar.getInstance();
 
-				year = cal.get(cal.YEAR);
-				month = cal.get(cal.MONTH) + 1;
-				date = cal.get(cal.DATE);
+				year = cal.get(Calendar.YEAR);
+				month = cal.get(Calendar.MONTH) + 1;
+				date = cal.get(Calendar.DATE);
 
-				hour = cal.get(cal.HOUR_OF_DAY);
-				min = cal.get(cal.MINUTE);
-				sec = cal.get(cal.SECOND);
+				hour = cal.get(Calendar.HOUR_OF_DAY);
+				min = cal.get(Calendar.MINUTE);
+				sec = cal.get(Calendar.SECOND);
 
 				dateField.setText(String.format("%02d/%02d/%02d", year, month, date));
 				timeField.setText(String.format("%02d:%02d:%02d", hour, min, sec));

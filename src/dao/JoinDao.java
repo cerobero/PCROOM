@@ -4,12 +4,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import asset.GeneralSet;
-
-
-
-
-
 public class JoinDao {
 
 	private Connection con;

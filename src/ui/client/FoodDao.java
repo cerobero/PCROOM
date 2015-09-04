@@ -50,7 +50,7 @@ public class FoodDao {
 			pstmt.setInt(3, object.getCount());
 			pstmt.setInt(4, object.getPrice());
 			
-			int result = pstmt.executeUpdate();
+			pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
 			System.out.println("inset ¿¡·¯");
@@ -92,7 +92,7 @@ public class FoodDao {
 		try {
 			pstmt=con.prepareStatement(sql);
 			pstmt.setString(1, object.getName());
-			int result = pstmt.executeUpdate();
+			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

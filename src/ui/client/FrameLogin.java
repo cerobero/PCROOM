@@ -17,6 +17,7 @@ import asset.GeneralSet;
 import dao.Join;
 import dao.JoinDao;
 
+@SuppressWarnings("serial")
 public class FrameLogin extends JFrame {
 
 	private JTextField textfield_id;
@@ -102,7 +103,7 @@ public class FrameLogin extends JFrame {
 			if(e.getSource() == button_join){
 
 
-				FrameJoin frameJoin =new FrameJoin();
+				new FrameJoin();
 
 
 			}else if(e.getSource() == button_login || e.getSource() == textfield_id || e.getSource() == textfield_pw){
@@ -116,9 +117,9 @@ public class FrameLogin extends JFrame {
 						textfield_id.setText("");
 						textfield_pw.setText("");
 
-						userPay userpay = new userPay(userId, new Date());
-                        dao.exit();
-                        dispose();
+						new userPay(userId, new Date());
+						dao.exit();
+						dispose();
 
 						dao.exit();
 						dispose();

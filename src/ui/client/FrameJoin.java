@@ -9,10 +9,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-import asset.GeneralSet;
 import dao.Join;
 import dao.JoinDao;
 
+@SuppressWarnings("serial")
 public class FrameJoin extends JFrame {
 	private JTextField textfield_id;
 	private JTextField textfield_pw;
