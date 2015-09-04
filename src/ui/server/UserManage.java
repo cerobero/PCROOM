@@ -74,7 +74,7 @@ public class UserManage extends JDialog{
 		String driver = "com.mysql.jdbc.Driver";
 		String db_url = "jdbc:mysql://localhost:3306/join_db";
 		String db_id = "root";
-		String do_pw = "1234";
+		String do_pw = "hanbit";
 		String sql = null;
 		try {
 			Class.forName(driver);
