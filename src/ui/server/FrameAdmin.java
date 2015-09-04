@@ -28,8 +28,6 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
-import asset.GeneralSet;
-
 public class FrameAdmin extends JFrame
 {
 
@@ -181,9 +179,18 @@ public class FrameAdmin extends JFrame
 		});
 		buttonPane.add(button);
 
-		JButton button_1 = new JButton("메뉴 1");
+		JButton button_1 = new JButton("회원관리");
 		button_1.setPreferredSize(new Dimension(100, 0));
 		button_1.setFont(new Font("맑은 고딕", Font.BOLD, 14));
+		button_1.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				UserManage userManage = new UserManage();
+				userManage.setVisible(true);
+			}
+		});
 		buttonPane.add(button_1);
 
 //		JButton button_2 = new JButton("메뉴 2");

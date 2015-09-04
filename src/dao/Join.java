@@ -55,6 +55,8 @@ public class Join {
 		this.birth = birth;
 	}
 	
-	
+	public String toString() {
+		return ""+getUserId()+"\t  "+getPassword()+"\t  "+getCellPhone()+"\t"+getBirth();
+	}
 
 }

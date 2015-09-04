@@ -25,32 +25,31 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import ui.client.Food;
-import ui.client.FoodDao;
+import dao.Join;
+import dao.JoinDao;
 
 
 @SuppressWarnings("serial")
-public class Foodadmin extends JDialog{
+public class UserManage extends JDialog{
 	private JPanel panela;
 	private JPanel panelb;
 	private JPanel panelc;
 	private JButton addbutton;
 	private JButton button_d;
 	private JButton enter;
-	private JTextField name;
-	private JTextField maker;
-	private JTextField count;
-	private JTextField price;
+	private JTextField userId;
+	private JTextField password;
+	private JTextField cellPhone;
+	private JTextField birth;
 	private JDialog dlog;
 	private Connection con = null;
 	private Statement stmt = null;
 	PreparedStatement pstmt = null;
 	ResultSet rs = null;
-	Food food = null;
-	FoodDao foodDao =new FoodDao();
+	Join join = null;
+	JoinDao joinDao = new JoinDao();
 	private JTextArea txtForintI;
-	List<Food> foodlist = new ArrayList<>();
-	FoodDao dao = new FoodDao();
+	List<Join> joinList = new ArrayList<>();
 
 	/**
 	 * Launch the application.
@@ -59,7 +58,7 @@ public class Foodadmin extends JDialog{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Foodadmin frame = new Foodadmin();
+					UserManage frame = new UserManage();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -71,9 +70,9 @@ public class Foodadmin extends JDialog{
 	/**
 	 * Create the frame.
 	 */
-	public Foodadmin() {
+	public UserManage() {
 		String driver = "com.mysql.jdbc.Driver";
-		String db_url = "jdbc:mysql://localhost:3306/product_db";
+		String db_url = "jdbc:mysql://localhost:3306/join_db";
 		String db_id = "root";
 		String do_pw = "hanbit";
 		String sql = null;
@@ -83,18 +82,18 @@ public class Foodadmin extends JDialog{
 			con = DriverManager.getConnection(db_url, db_id, do_pw);
 			stmt = con.createStatement();
 			// 여기까지 흔한db연결 
-			sql = "select name,maker,count,price from foods";
+			sql = "select user_id, password, cellphone, birth from join_tb";
 			rs = stmt.executeQuery(sql);
 
 			while (rs.next() == true) {
 				// 반복문으로 칼럼을 꺼냄
 
-				food = new Food(); //setter , getter로 이루어진 클래스
-				food.setName(rs.getString(1));//메소드를 사용해서DB 데이터값들을 GET해서 FOOD에 SET 해줌
-				food.setMaker(rs.getString(2));
-				food.setCount(rs.getInt(3));
-				food.setPrice(rs.getInt(4));
-				foodlist.add(food); //세팅하고 리스트에 저장!
+				join = new Join(); //setter , getter로 이루어진 클래스
+				join.setUserId(rs.getString(1));//메소드를 사용해서DB 데이터값들을 GET해서 FOOD에 SET 해줌
+				join.setPassword(rs.getString(2));
+				join.setCellPhone(rs.getString(3));
+				join.setBirth(rs.getString(4));
+				joinList.add(join); //세팅하고 리스트에 저장!
 
 				//DB 나갈때 문단속하고
 			}
@@ -137,12 +136,10 @@ public class Foodadmin extends JDialog{
 		setContentPane(panela);
 		panela.setLayout(new BorderLayout(0, 0));
 
-		JLabel label_2 = new JLabel("음식관리");
+		JLabel label_2 = new JLabel("회원관리");
 		label_2.setHorizontalAlignment(SwingConstants.CENTER);
 		label_2.setFont(new Font("굴림", Font.BOLD, 20));
 		panela.add(label_2, BorderLayout.NORTH);
-		//	Food food = new Food();
-
 
 		addbutton = new JButton("추가");
 		addbutton.addActionListener(new AListener()); //버튼 누르면 추가 입력창이뜸
@@ -156,9 +153,11 @@ public class Foodadmin extends JDialog{
 		txtForintI = new JTextArea();
 		txtForintI.setFont(new Font("굴림", Font.PLAIN, 13));
 		txtForintI.setEditable(false);
-//		txtForintI.setEnabled(false);
+		//		txtForintI.setEnabled(false);
+		txtForintI.append("ID\tPassword\t전화번호\t생년월일\n");
+		txtForintI.append("==============================================\n");
 
-		for(Food f: foodlist){ //반복문을통해 텍스트 에어리어에 db에서 꺼내담아온 foodlist의 내용들을 하나씩
+		for(Join f: joinList){ //반복문을통해 텍스트 에어리어에 db에서 꺼내담아온 foodlist의 내용들을 하나씩
 			//붙여서 이어너음
 			txtForintI.append(f.toString()+"\n");
 		}
@@ -186,23 +185,31 @@ public class Foodadmin extends JDialog{
 			if(e.getSource()==addbutton){
 				dlog = new JDialog();
 				JPanel panel = new JPanel();
-				name = new JTextField(20);
-				maker = new JTextField(20);
-				count = new JTextField(20);
-				price = new JTextField(20);
+				JPanel idPanel = new JPanel();
+				JPanel pwPanel = new JPanel();
+				JPanel cpPanel = new JPanel();
+				JPanel brPanel = new JPanel();
+				userId = new JTextField(16);
+				password = new JTextField(16);
+				cellPhone = new JTextField(16);
+				birth = new JTextField(16);
 				enter = new JButton("enter");
-				panel.add(new JLabel("품명:"));
-				panel.add(name);
-				panel.add(new JLabel("제조사:"));
-				panel.add(maker);
-				panel.add(new JLabel("수량:"));
-				panel.add(count);
-				panel.add(new JLabel("가격:"));
-				panel.add(price);
+				idPanel.add(new JLabel("ID : "));
+				idPanel.add(userId);
+				pwPanel.add(new JLabel("PW : "));
+				pwPanel.add(password);
+				cpPanel.add(new JLabel("전화번호 : "));
+				cpPanel.add(cellPhone);
+				brPanel.add(new JLabel("생일 : "));
+				brPanel.add(birth);
+				panel.add(idPanel);
+				panel.add(pwPanel);
+				panel.add(cpPanel);
+				panel.add(brPanel);
 				panel.add(enter);
 				enter.addActionListener(new BListener());//enter 누르면 입력소스들이 실행됨
 				dlog.add(panel);
-				dlog.setTitle("음식추가");
+				dlog.setTitle("회원추가");
 				dlog.setLocationRelativeTo(panel);
 				dlog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 				dlog.setSize(300,200);
@@ -217,15 +224,15 @@ public class Foodadmin extends JDialog{
 			else{
 				dlog = new JDialog();
 				JPanel panel = new JPanel();
-				name = new JTextField(20);
+				userId = new JTextField(20);
 				button_d = new JButton("삭제");
 				button_d.addActionListener(new BListener());//삭제버튼 누르면 삭제가 실행됨
-				panel.add(new JLabel("품명:"));
-				panel.add(name);
+				panel.add(new JLabel("ID :"));
+				panel.add(userId);
 
 				panel.add(button_d);
 				dlog.add(panel);
-				dlog.setTitle("음식삭제");
+				dlog.setTitle("회원탈퇴");
 				dlog.setLocationRelativeTo(panel);
 				dlog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 				dlog.setSize(300,100);
@@ -239,29 +246,32 @@ public class Foodadmin extends JDialog{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if(e.getSource()==enter){
-				food.setName(name.getText());
-				food.setMaker(maker.getText());
-				food.setCount(Integer.parseInt(count.getText()));
-				food.setPrice(Integer.parseInt(price.getText()));
+				join.setUserId(userId.getText());
+				join.setPassword(password.getText());
+				join.setCellPhone(cellPhone.getText());
+				join.setBirth(birth.getText());
 
-				dao.insert(food);
+				joinDao.insert(join);
 				JOptionPane.showMessageDialog(panela, "입력성공");
 				txtForintI.setText("");//다시한번 비우고
-				foodlist = dao.showList();//다시쓰기 귀찮아서 db에있는내용 꺼내오는작업을 dao에 너어버렸음.
-				for(Food f: foodlist){
-					//System.out.println(f.toString());
+				txtForintI.append("ID\tPassword\t전화번호\t생년월일\n");
+				txtForintI.append("==============================================\n");
+				joinList = joinDao.selectList();//다시쓰기 귀찮아서 db에있는내용 꺼내오는작업을 dao에 너어버렸음.
+				for(Join f: joinList){
 					txtForintI.append(f.toString()+"\n");
 				}
 				dlog.dispose();
 
 			}
 			else{
-				food.setName(name.getText());
-				dao.delete(food);
+				join.setUserId(userId.getText());
+				joinDao.delete(join.getUserId());
 				JOptionPane.showMessageDialog(panela, "삭제성공");
 				txtForintI.setText("");
-				foodlist = dao.showList();
-				for(Food f: foodlist){
+				txtForintI.append("ID\tPassword\t전화번호\t생년월일\n");
+				txtForintI.append("==============================================\n");
+				joinList = joinDao.selectList();
+				for(Join f: joinList){
 					txtForintI.append(f.toString()+"\n");
 				}
 				dlog.dispose();
