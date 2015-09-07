@@ -246,8 +246,10 @@ public class userPay {
 				} else if (stopRestart == 1) {
 					restartTime();
 
-					numberLabel.setText("번호");
-					payLabel.setText("사용자선후불");
+//					numberLabel.setText("번호");
+//					payLabel.setText("사용자선후불");
+					numberLabel.setText(pcNum + "번 PC");
+					payLabel.setText(userId);
 					pauseButton.setText("일시정지");
 					if(g1==0){
 					game1Button.setEnabled(true);
