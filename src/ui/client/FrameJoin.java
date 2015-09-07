@@ -106,7 +106,7 @@ public class FrameJoin extends JFrame {
 					newJoin = new Join();
 					newJoin.setUserId(textfield_id.getText());
 					newJoin.setPassword(textfield_pw.getText());
-					newJoin.setCellPhone(textfield_birth.getText());
+					newJoin.setCellPhone(textfield_phone.getText());
 					newJoin.setBirth(textfield_birth.getText());
 
 					dao.insert(newJoin);

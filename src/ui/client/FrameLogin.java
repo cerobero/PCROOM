@@ -35,7 +35,7 @@ public class FrameLogin extends JFrame {
 	public FrameLogin() {
 		setLayout(null);
 
-		JLabel label_title = new JLabel("PCπÊ ¿Ã∏ß");
+		JLabel label_title = new JLabel("PC CAFE");
 		label_title.setFont(new Font("∏º¿∫ ∞ÌµÒ", Font.PLAIN, 50));
 		label_title.setBounds(5, 5, 500, 60);
 		add(label_title);

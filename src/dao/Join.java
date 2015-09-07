@@ -54,7 +54,7 @@ public class Join {
 	}
 	
 	public String toString() {
-		return ""+getUserId()+"\t  "+getCellPhone()+"\t"+getBirth();
+		return ""+getUserId()+"\t  "+getCellPhone()+"\t\t"+getBirth();
 	}
 
 }

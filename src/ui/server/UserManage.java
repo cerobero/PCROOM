@@ -154,7 +154,7 @@ public class UserManage extends JDialog{
 		txtForintI.setFont(new Font("굴림", Font.PLAIN, 13));
 		txtForintI.setEditable(false);
 		//		txtForintI.setEnabled(false);
-		txtForintI.append("ID\t전화번호\t생년월일\n");
+		txtForintI.append("ID\t전화번호\t\t생년월일\n");
 
 		for(Join f: joinList){ //반복문을통해 텍스트 에어리어에 db에서 꺼내담아온 foodlist의 내용들을 하나씩
 			//붙여서 이어너음
@@ -211,7 +211,7 @@ public class UserManage extends JDialog{
 				dlog.setTitle("회원추가");
 				dlog.setLocationRelativeTo(panel);
 				dlog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-				dlog.setSize(300,200);
+				dlog.setSize(300,220);
 				dlog.setVisible(true);
 				//				gameList = new GameList();
 				//				//gameDao = new GameAdministrationDao();
